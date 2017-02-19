@@ -1,8 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.Characters.FirstPerson;
-using UnityStandardAssets.CrossPlatformInput.PlatformSpecific;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Amazon;
+using Amazon.CognitoIdentity;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
+
+[DynamoDBTable("VDMSTable")]
+public class VDMSTable
+{
+    [DynamoDBHashKey]// Hash key.
+    public string Description { get; set; }
+
+    [DynamoDBHashKey]// Hash key.
+    public string EventType { get; set; }
+
+    [DynamoDBHashKey]// Hash key.
+    public string LoQueQuiera { get; set; }
+}
 
 public class HUDManager : MonoBehaviour {
 	[SerializeField] private GameObject drone;
@@ -11,15 +30,18 @@ public class HUDManager : MonoBehaviour {
 	[SerializeField] private GameObject vehicleDualC;
 	[SerializeField] private Camera droneCam;
 	[SerializeField] private Camera vehicleCam;
-
 	//Variables for map
-	[SerializeField] private GameObject miniMap, fullMap;
+	[SerializeField] private GameObject miniMap, fullMap, cancelFullMapButton;
+    [SerializeField] private GameObject ActualRobotName;
+
 	private RenderTexture DroneRenderTexture;
 	private RenderTexture VehicleRenderTexture;
-
 	private RobotState rstate = RobotState.unknown;
 	public GameObject LayerFadeInOut;
 	public float FadeInOutSpeed = 0;
+
+    private enum OnClickActionEnum { ChangeRobot, OpenConfig, unknown };
+    private OnClickActionEnum OnClickAction = OnClickActionEnum.unknown;
 
 	private enum RobotState{
 		DRONE,
@@ -35,102 +57,164 @@ public class HUDManager : MonoBehaviour {
 		activateViewGameObjects(drone, droneDualC, droneCam, DroneRenderTexture, false);
 		activateViewGameObjects (vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, false);
 		activateViewGameObjects (vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, true);
+        ActualRobotName.GetComponent<Text>().text = "Light Vehicle";
 
-		activateMapGameObjects (fullMap, false);
+        fullMap.SetActive(false);
+		cancelFullMapButton.SetActive(false);
 		rstate = RobotState.VEHICLE;
 	}
-	
-	// Update is called once per frame
-	void Update () { }
+    //void SyncSuccessCallback(object sender, SyncSuccessEvent e){
+    //    // Your handler code here
+    //}
 
-	public void onClickChangeRobot() {//Change state	
-		StartCoroutine(fadeInAndOutCoroutine());
-		StartCoroutine(changeRobotCoroutine());
-	}
+    public void onClickChangeRobot() {//Change state
+        activateViewGameObjects(drone, droneDualC, droneCam, DroneRenderTexture, false);
+        activateViewGameObjects(vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, false);
+        OnClickAction = OnClickActionEnum.ChangeRobot;
+        StartCoroutine(fadeInCoroutine());
 
-	IEnumerator changeRobotCoroutine(){
-		Debug.Log("Click on change Robot State");
-		switch (rstate) {
-		case RobotState.DRONE:
-			activateViewGameObjects (drone, droneDualC, droneCam, DroneRenderTexture, false);
-			activateViewGameObjects (vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, false);
-			yield return new WaitForSeconds (0.35f);
-			activateViewGameObjects (vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, true);
-			rstate = RobotState.VEHICLE;
-			break;
-		case RobotState.VEHICLE:
-			activateViewGameObjects (drone, droneDualC, droneCam, DroneRenderTexture, false);
-			activateViewGameObjects (vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, false);
-			yield return new WaitForSeconds (0.35f);
-			activateViewGameObjects (drone, droneDualC, droneCam, DroneRenderTexture, true);
-			rstate = RobotState.DRONE;
-			break;
-		default:
-			Debug.Log ("Unknown Robot state.");
-			rstate = RobotState.unknown;
-			break;
-		}
-	}
+        //TEST
+        UnityInitializer.AttachToGameObject(this.gameObject);
+        print("Attached");
+        var credentials = new CognitoAWSCredentials("xxxxxxx",
+                            "eu - central - 1_QrjYxJ01d",
+                            "arn:aws:cognito-idp:eu-central-1:624311491617:userpool/eu-central-1_QrjYxJ01d",
+                            "arn:aws:cognito-idp:eu-central-1:624311491617:userpool/eu-central-1_QrjYxJ01d", RegionEndpoint.EUCentral1);
 
-	IEnumerator fadeInAndOutCoroutine(){
-		print ("fading in and out...");
-		LayerFadeInOut.SetActive (true);
-		print ("LayerFadeInOut is: " + LayerFadeInOut.activeSelf);
-		Image ImageFadeInOut = LayerFadeInOut.GetComponent<Image> ();
-		for (;;) {
-			ImageFadeInOut.color = Color.Lerp (ImageFadeInOut.color, Color.black, (FadeInOutSpeed/2) * Time.deltaTime);
+        //("eu-central-1_QrjYxJ01d", RegionEndpoint.EUCentral1);
+        print("Credentials");
+        AmazonDynamoDBClient client = new AmazonDynamoDBClient(credentials);
+        print("Client");
+        DynamoDBContext Context = new DynamoDBContext(client);
 
-			if (ImageFadeInOut.color.a >= 0.95f) {
-				for (;;) {
-					ImageFadeInOut.color = Color.Lerp (ImageFadeInOut.color, Color.clear, (FadeInOutSpeed/2) * Time.deltaTime);
-					if (ImageFadeInOut.color.a <= 0.05f) {
-						ImageFadeInOut.color = Color.clear;
-						break;
-					} else {
-						print ("Yielding in fade out loop");
-						yield return null;
-					}
-				}
-				break;
-			} else {
-				print ("Yielding in fade in loop");
-				yield return null;
-			}
-		}
-		print ("Process is done.");
-		LayerFadeInOut.SetActive (false);
-	}
+        VDMSTable testLog = new VDMSTable
+        {
+            Description = "Good luck que se traza",
+            EventType = "Para tipo el que tengo malito",
+            LoQueQuiera = "Good luck elevado al cubo"
+        };
+
+        // Save the book.
+        string resultText = "Commit NOT done :(";
+        Context.SaveAsync(testLog, (result) => {
+            if (result.Exception == null)
+                resultText = "Commit Done. :)";
+        });
+
+        print(resultText);
+        
+        //CognitoAWSCredentials credentials = new CognitoAWSCredentials(
+        //                                    "us-west-2:438781bf-72ab-415e-8829-d83c053416f0", // Identity Pool ID
+        //                                    RegionEndpoint.USWest2); // Region
+
+        //// Initialize the Cognito Sync client
+        //CognitoSyncManager syncManager = new CognitoSyncManager(credentials,
+        //    new AmazonCognitoSyncConfig { RegionEndpoint = RegionEndpoint.USWest2 });// Region
+
+        //// Create a record in a dataset and synchronize with the server
+        //Dataset dataset = syncManager.OpenOrCreateDataset("myDataset");
+        ////dataset.OnSyncSuccess += SyncSuccessCallback;
+        //dataset.OnSyncSuccess += SyncSuccessCallback;
+        //dataset.Put("myKey", "myValue");
+        //dataset.SynchronizeAsync();
+    }
+    
+
+    public void onClickConfigRobot() {
+        activateViewGameObjects(drone, droneDualC, droneCam, DroneRenderTexture, false);
+        activateViewGameObjects(vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, false);
+        OnClickAction = OnClickActionEnum.OpenConfig;
+        StartCoroutine(fadeInCoroutine());
+    }
+
+    void executeActionOnClick() {
+        switch (OnClickAction) {
+            case OnClickActionEnum.ChangeRobot:
+                changeRobotControl(); break;
+            case OnClickActionEnum.OpenConfig:
+                SceneManager.LoadScene("Config"); break;
+            case OnClickActionEnum.unknown:
+            default:
+                break;
+        }
+    }
+
+    IEnumerator fadeInCoroutine(){
+        LayerFadeInOut.SetActive(true);
+        Image ImageFadeInOut = LayerFadeInOut.GetComponent<Image>();
+        for (;;){
+            ImageFadeInOut.color = Color.Lerp(ImageFadeInOut.color, Color.black, (FadeInOutSpeed / 2) * Time.deltaTime);
+            if (ImageFadeInOut.color.a >= 0.95f){
+                ImageFadeInOut.color = Color.black;
+                executeActionOnClick();
+                break;
+            }else{
+                yield return null;
+            }
+        }
+        print("Process \"fade in\" is done.");
+    }
+
+    IEnumerator fadeOutCoroutine(){
+        LayerFadeInOut.SetActive(true);
+        Image ImageFadeInOut = LayerFadeInOut.GetComponent<Image>();
+        for (;;){
+            ImageFadeInOut.color = Color.Lerp(ImageFadeInOut.color, Color.clear, (FadeInOutSpeed / 2) * Time.deltaTime);
+            if (ImageFadeInOut.color.a <= 0.05f){
+                ImageFadeInOut.color = Color.clear;
+                break;
+            }else{
+                yield return null;
+            }
+        }
+        print("Process \"fade out\" is done.");
+        LayerFadeInOut.SetActive(false);
+    }
+
+    void changeRobotControl(){
+        Debug.Log("Click on change Robot State");
+        switch (rstate){
+            case RobotState.DRONE:
+                activateViewGameObjects(drone, droneDualC, droneCam, DroneRenderTexture, false);
+                activateViewGameObjects(vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, false);
+                activateViewGameObjects(vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, true);
+                ActualRobotName.GetComponent<Text>().text = "Light Vehicle";
+                rstate = RobotState.VEHICLE;
+                break;
+            case RobotState.VEHICLE:
+                activateViewGameObjects(drone, droneDualC, droneCam, DroneRenderTexture, false);
+                activateViewGameObjects(vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, false);
+                activateViewGameObjects(drone, droneDualC, droneCam, DroneRenderTexture, true);
+                ActualRobotName.GetComponent<Text>().text = "Quadcopter";
+                rstate = RobotState.DRONE;
+                break;
+            default:
+                Debug.Log("Unknown Robot state.");
+                rstate = RobotState.unknown;
+                break;
+        }
+        StartCoroutine(fadeOutCoroutine());
+    }
 
 	public void onClickMiniMap() {//We display the map with full size
 		Debug.Log("Click on Mini Map");
-		//miniMap [0].GetComponent<RectTransform> ().anchorMin 	= new Vector2(0.5f, 0.5f);
-		//miniMap [0].GetComponent<RectTransform> ().anchorMax 	= new Vector2(0.5f, 0.5f);
-		//miniMap [0].GetComponent<RectTransform> ().pivot 		= new Vector2(0.5f, 0.5f);
-		//miniMap [0].GetComponent<RectTransform> ().localScale 	= new Vector3(2.5f, 2.5f, 2.5f);
-		//miniMap [0].GetComponent<RectTransform> ().position 	= new Vector3(0, -20, 0);
-		activateMapGameObjects (miniMap, false);
-		activateMapGameObjects (fullMap, true);
+		miniMap.SetActive(false);
+		fullMap.SetActive(true);
+		cancelFullMapButton.SetActive(true);
 		activateViewGameObjects (drone, droneDualC, droneCam, DroneRenderTexture, false);
 		activateViewGameObjects (vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, false);
 	}
 
 	public void onClickCancelFullMap() {//We display the map with full size
 		Debug.Log("Click on Cancel Full Map");
-
-		//miniMap [0].GetComponent<RectTransform> ().anchorMin 	= new Vector2(0, 1);
-		//miniMap [0].GetComponent<RectTransform> ().anchorMax 	= new Vector2(0, 1);
-		//miniMap [0].GetComponent<RectTransform> ().pivot 		= new Vector2(0, 1);
-		//miniMap [0].GetComponent<RectTransform> ().localScale 	= new Vector3(1, 1, 1);
-		//miniMap [0].GetComponent<RectTransform> ().position 	= new Vector3(20, -20, 0);
-		activateMapGameObjects (miniMap, true);
-		activateMapGameObjects (fullMap, false);
-
+		miniMap.SetActive(true);
+		fullMap.SetActive(false);
+		cancelFullMapButton.SetActive(false);
 		if (rstate == RobotState.DRONE) {
 			activateViewGameObjects (drone, droneDualC, droneCam, DroneRenderTexture, true);
 		} else if (rstate == RobotState.VEHICLE) {
 			activateViewGameObjects (vehicle, vehicleDualC, vehicleCam, VehicleRenderTexture, true);
 		}
-
 	}
 
 	private void activateViewGameObjects (GameObject obj, GameObject ctrl, Camera cam, RenderTexture texture, bool enable){
@@ -145,11 +229,5 @@ public class HUDManager : MonoBehaviour {
 		} else {
 			cam.GetComponent<Camera> ().targetTexture = null;
 		}
-		//cam.enabled = enable;
-	}
-
-	private void activateMapGameObjects (GameObject obj, bool enable){
-		Debug.Log ("activating: " + obj.name + " to: " + (enable? "true" : "false"));
-		obj.SetActive(enable);
 	}
 }
