@@ -17,10 +17,9 @@ public class LoadingBehavior : MonoBehaviour {
         StartCoroutine(loadingSceneTimer());
 	}
 	
-    IEnumerator loadingSceneTimer()
-    {
+    IEnumerator loadingSceneTimer(){
         yield return new WaitForSeconds(Timer);
-        StartCoroutine(fadeInCoroutine());
+        StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, performAction));
     }
 
     void performAction()
@@ -28,41 +27,20 @@ public class LoadingBehavior : MonoBehaviour {
         switch (ActionToPerform)
         {
             case Action.Intro:
-                SceneManager.LoadScene("Intro");
+                LevelsLoader.loadIntro();
                 break;
             case Action.StartSim:
-                SceneManager.LoadScene("Level1_Maze");
+                LevelsLoader.loadLevel1();
                 break;
             case Action.Tutorials:
-                SceneManager.LoadScene("Tutorials");
+                LevelsLoader.loadTutorials();
                 break;
             case Action.Controls:
-                SceneManager.LoadScene("Controls");
+                LevelsLoader.loadControls();
                 break;
             case Action.unknown:
             default:
                 break;
         }
-    }
-
-    IEnumerator fadeInCoroutine()
-    {
-        LayerFadeInOut.SetActive(true);
-        Image ImageFadeInOut = LayerFadeInOut.GetComponent<Image>();
-        for (;;)
-        {
-            ImageFadeInOut.color = Color.Lerp(ImageFadeInOut.color, Color.black, (FadeInOutSpeed / 2) * Time.deltaTime);
-            if (ImageFadeInOut.color.a >= 0.95f)
-            {
-                ImageFadeInOut.color = Color.black;
-                performAction();
-                break;
-            }
-            else
-            {
-                yield return null;
-            }
-        }
-        print("Process \"fade in\" is done.");
     }
 }
