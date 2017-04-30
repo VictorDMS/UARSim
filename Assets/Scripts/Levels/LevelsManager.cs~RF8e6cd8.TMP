@@ -1,0 +1,112 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LevelsManager : MonoBehaviour {
+    public static LevelsManager instance = null;
+
+    public const short MaxPoints_L1 = 5;
+    public const short MaxPoints_L2 = 5;
+    public const short MaxPoints_L3 = 5;
+    public const short MaxPoints_L4 = 5;
+
+    public static short Points_L1 = MaxPoints_L1;
+    public static short Points_L2 = MaxPoints_L2;
+    public static short Points_L3 = MaxPoints_L3;
+    public static short Points_L4 = MaxPoints_L4;
+
+    public static bool LoadConfig = false;
+    public static bool LoadScore = false;
+
+    public enum Levels { L1, L2, L3, L4 };
+    private static Levels CurrentLevel = Levels.L1;
+
+    void Awake () {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+        DontDestroyOnLoad(gameObject);
+    }
+    
+    public static bool foundGoal(){
+        bool FinishedLevel = false;
+        switch (CurrentLevel){
+            case Levels.L1:
+                --Points_L1;
+                if (Points_L1 == 0){
+                    FinishedLevel = true;
+                    Points_L1 = MaxPoints_L1;
+                }
+                break;
+            case Levels.L2:
+                --Points_L2;
+                if (Points_L2 == 0){
+                    FinishedLevel = true;
+                    Points_L2 = MaxPoints_L2;
+                }
+                break;
+            case Levels.L3:
+                --Points_L3;
+                if (Points_L3 == 0){
+                    FinishedLevel = true;
+                    Points_L3 = MaxPoints_L3;
+                }
+                break;
+            case Levels.L4:
+                --Points_L4;
+                if (Points_L4 == 0){
+                    FinishedLevel = true;
+                    Points_L4 = MaxPoints_L4;
+                }
+                break;
+        }
+        return FinishedLevel;
+    }
+
+    public static void loadLevel(){
+        switch (CurrentLevel)
+        {
+            case Levels.L1:
+                CurrentLevel = Levels.L2;
+                LoadScore1 = true;
+                //loadLevel2();
+                break;
+            case Levels.L2:
+                CurrentLevel = Levels.L3;
+                LoadScore2 = true;
+                //loadLevel3();
+                break;
+            case Levels.L3:
+                CurrentLevel = Levels.L4;
+                LoadScore3 = true;
+                //loadLevel2();
+                break;
+            case Levels.L4:
+                CurrentLevel = Levels.L1;
+                LoadScore4 = true;
+                break;
+        }
+    }
+
+    public static Levels getCurrentLevel(){
+        return CurrentLevel;
+    }
+
+    public static void loadLevel1(){
+        LoadConfig1 = true;
+        CurrentLevel = Levels.L1;
+    }
+    public static void loadLevel2(){
+        LoadConfig2 = true;
+        CurrentLevel = Levels.L2;
+    }
+    public static void loadLevel3(){
+        LoadConfig3 = true;
+        CurrentLevel = Levels.L3;
+    }
+    public static void loadLevel4(){
+        LoadConfig4 = true;
+        CurrentLevel = Levels.L4;
+    }
+}

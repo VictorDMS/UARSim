@@ -18,6 +18,6 @@ public class TutorialCanvasBehavior : MonoBehaviour {
     }
 
     void loadLevel(){
-        LevelsLoader.loadLoading();
+        GameManager.loadLoading();
     }
 }

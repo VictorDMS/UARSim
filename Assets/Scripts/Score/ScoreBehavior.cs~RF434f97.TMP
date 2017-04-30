@@ -1,0 +1,81 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class ScoreBehavior : MonoBehaviour {
+
+    static string ScoreLevel1P1 = "", PlayerLevel1P1 = "";
+    static string ScoreLevel2P1 = "", PlayerLevel2P1 = "";
+    static string ScoreLevel3P1 = "", PlayerLevel3P1 = "";
+    static string ScoreLevel4P1 = "", PlayerLevel4P1 = "";
+
+    static string ScoreLevel1P2 = "", PlayerLevel1P2 = "";
+    static string ScoreLevel2P2 = "", PlayerLevel2P2 = "";
+    static string ScoreLevel3P2 = "", PlayerLevel3P2 = "";
+    static string ScoreLevel4P2 = "", PlayerLevel4P2 = "";
+
+    static string ScoreLevel1P3 = "", PlayerLevel1P3 = "";
+    static string ScoreLevel2P3 = "", PlayerLevel2P3 = "";
+    static string ScoreLevel3P3 = "", PlayerLevel3P3 = "";
+    static string ScoreLevel4P3 = "", PlayerLevel4P3 = "";
+
+    public void launchScoreLayer()
+    {
+        switch (LevelsManager.getCurrentLevel())
+        {
+            case LevelsManager.Levels.L1:
+                loadLevel1Config();
+                if (GlobalInformation.LightCurrentConfig == GlobalInformation.VehicleRobotConfiguration.LEFT) LightLeft.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.LightCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RIGHT) LightRight.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.LightCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RANDOM) LightRandom.GetComponent<Toggle>().enabled = true;
+                if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                break;
+            case LevelsManager.Levels.L2:
+                loadLevel2Config();
+                if (GlobalInformation.UltraCurrentConfig == GlobalInformation.VehicleRobotConfiguration.LEFT) UltraLeft.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.UltraCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RIGHT) UltraRight.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.UltraCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RANDOM) UltraRandom.GetComponent<Toggle>().enabled = true;
+                if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                break;
+            case LevelsManager.Levels.L3:
+                loadLevel3Config();
+                if (GlobalInformation.HeavyCurrentConfig == GlobalInformation.VehicleRobotConfiguration.LEFT) HeavyLeft.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.HeavyCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RIGHT) HeavyRight.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.HeavyCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RANDOM) HeavyRandom.GetComponent<Toggle>().enabled = true;
+                if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
+                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                break;
+            case LevelsManager.Levels.L4:
+            default:
+                break;
+        }
+        BackButtonText.GetComponent<Text>().text = "Go Back";
+        LayerFadeInOut.GetComponent<Image>().color = Color.clear;
+        LayerFadeInOut.SetActive(false);
+        GlobalInformation.ExitConfigMenu = false;
+    }
+
+    public void onClickGoBackButton(){
+
+    }
+
+    public static void loadScoreLevel1(){
+
+    }
+    public static void loadScoreLevel2(){
+
+    }
+    public static void loadScoreLevel3(){
+
+    }
+    public static void loadScoreLevel4(){
+
+    }
+    public static void loadScoreTotal(){
+
+    }
+}

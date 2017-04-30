@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2015
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UARSim.CSharp.Plugins", "UARSim.CSharp.Plugins.csproj", "{62CB9EBE-A4EC-F92E-A8AC-7995FB56F000}"
+# Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UARSim.Plugins", "UARSim.Plugins.csproj", "{5C87BFB0-A57D-5EB6-116E-BD3237E6D8D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UARSim.CSharp", "UARSim.CSharp.csproj", "{3DB469BF-B8BE-DB64-71FF-BDD73BACCDBA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UARSim", "UARSim.csproj", "{ACD82BF2-949A-4572-077F-D6724BC67D96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UARSim.CSharp.Editor", "UARSim.CSharp.Editor.csproj", "{71DAAD00-0355-76A8-5106-5750C78FB1B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UARSim.Editor", "UARSim.Editor.csproj", "{1B516636-5770-5862-1A9B-8F0457854C08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,18 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{62CB9EBE-A4EC-F92E-A8AC-7995FB56F000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62CB9EBE-A4EC-F92E-A8AC-7995FB56F000}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62CB9EBE-A4EC-F92E-A8AC-7995FB56F000}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62CB9EBE-A4EC-F92E-A8AC-7995FB56F000}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3DB469BF-B8BE-DB64-71FF-BDD73BACCDBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3DB469BF-B8BE-DB64-71FF-BDD73BACCDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3DB469BF-B8BE-DB64-71FF-BDD73BACCDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3DB469BF-B8BE-DB64-71FF-BDD73BACCDBA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71DAAD00-0355-76A8-5106-5750C78FB1B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71DAAD00-0355-76A8-5106-5750C78FB1B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71DAAD00-0355-76A8-5106-5750C78FB1B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71DAAD00-0355-76A8-5106-5750C78FB1B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C87BFB0-A57D-5EB6-116E-BD3237E6D8D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C87BFB0-A57D-5EB6-116E-BD3237E6D8D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C87BFB0-A57D-5EB6-116E-BD3237E6D8D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C87BFB0-A57D-5EB6-116E-BD3237E6D8D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACD82BF2-949A-4572-077F-D6724BC67D96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACD82BF2-949A-4572-077F-D6724BC67D96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACD82BF2-949A-4572-077F-D6724BC67D96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACD82BF2-949A-4572-077F-D6724BC67D96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B516636-5770-5862-1A9B-8F0457854C08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B516636-5770-5862-1A9B-8F0457854C08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B516636-5770-5862-1A9B-8F0457854C08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B516636-5770-5862-1A9B-8F0457854C08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

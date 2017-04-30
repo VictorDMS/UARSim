@@ -4,6 +4,8 @@ public class LevelController : MonoBehaviour {
 
     [SerializeField]private GameObject Stopwatch;
     [SerializeField]private GameObject ConfigWindow;
+    [SerializeField]private GameObject ScoreWindow;
+    [SerializeField]private GameObject MazeGenerator;
     [SerializeField]private GameObject HUDCanvasWindow;
     [SerializeField]private Camera droneCam;
     [SerializeField]private Camera vehicleCam;
@@ -20,13 +22,25 @@ public class LevelController : MonoBehaviour {
     void Start () {        
         VehicleRenderTexture = vehicleCam.GetComponent<Camera>().targetTexture;
         DroneRenderTexture = droneCam.GetComponent<Camera>().targetTexture;
-        showConfigWindow();
-        ConfigWindow.GetComponent<ConfigBehavior>().loadLevel1Config();
+        LevelsManager.loadLevel();
     }
     void Update(){
         if (GlobalInformation.ExitConfigMenu){
             GlobalInformation.ExitConfigMenu = false;
             backFromConfig();
+        }
+
+        if(LevelsManager.LoadConfig){
+            showConfigWindow();
+            LevelsManager.LoadConfig = false;
+        }
+        else if (LevelsManager.LoadScore){
+            showScoreWindow();
+            LevelsManager.LoadScore = false;
+        }
+        else if (LevelsManager.LoadLevel){
+            showNewLevelWindow();
+            LevelsManager.LoadLevel = false;
         }
     }
 
@@ -110,5 +124,36 @@ public class LevelController : MonoBehaviour {
         ConfigWindow.SetActive(false);
         HUDCanvasWindow.SetActive(true);
         HUDCanvasWindow.GetComponent<HUDManager>().onClickCancelFullMap();
+    }
+
+    public void showScoreWindow(){
+        disableRobots();
+        ScoreWindow.SetActive(true);
+        ScoreWindow.GetComponent<ScoreBehavior>().launchScoreLayer();
+        HUDCanvasWindow.SetActive(false);
+    }
+    public void backFromScore(){
+        LevelsManager.loadLevel();
+    }
+
+    public void showNewLevelWindow(){
+        switch (LevelsManager.getCurrentLevel()){
+            case LevelsManager.Levels.L1:
+                MazeGenerator.GetComponent<MazeSpawner>().loadMaze(LevelsManager.MaxPoints_L1);
+                break;
+            case LevelsManager.Levels.L2:
+                MazeGenerator.GetComponent<MazeSpawner>().loadMaze(LevelsManager.MaxPoints_L2);
+                break;                                             
+            case LevelsManager.Levels.L3:                          
+                MazeGenerator.GetComponent<MazeSpawner>().loadMaze(LevelsManager.MaxPoints_L3);
+                break;                                             
+            case LevelsManager.Levels.L4:                          
+                MazeGenerator.GetComponent<MazeSpawner>().loadMaze(LevelsManager.MaxPoints_L4);
+                break;
+            case LevelsManager.Levels.End:
+            case LevelsManager.Levels.Start:
+            default:
+                break;
+        }
     }
 }

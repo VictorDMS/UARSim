@@ -27,16 +27,16 @@ public class LoadingBehavior : MonoBehaviour {
         switch (ActionToPerform)
         {
             case Action.Intro:
-                LevelsLoader.loadIntro();
+                GameManager.loadIntro();
                 break;
             case Action.StartSim:
-                LevelsLoader.loadLevel1();
+                GameManager.loadLevel();
                 break;
             case Action.Tutorials:
-                LevelsLoader.loadTutorials();
+                GameManager.loadTutorials();
                 break;
             case Action.Controls:
-                LevelsLoader.loadControls();
+                GameManager.loadControls();
                 break;
             case Action.unknown:
             default:

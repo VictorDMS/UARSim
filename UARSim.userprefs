@@ -1,9 +1,8 @@
-﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+﻿<Properties StartupItem="UARSim.Plugins.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MazeGenerator\Scripts\MazeSpawner.cs">
     <Files>
-      <File FileName="Assets\Scripts\HUDManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\MazeGenerator\Scripts\MazeSpawner.cs" Line="31" Column="1" />
+      <File FileName="Assets\MazeGenerator\Scripts\MazeSpawner.cs" Line="57" Column="62" />
       <File FileName="Assets\MazeGenerator\Scripts\RandomTreeMazeGenerator.cs" Line="1" Column="1" />
       <File FileName="Assets\MazeGenerator\Scripts\RecursiveMazeGenerator.cs" Line="1" Column="1" />
       <File FileName="Assets\MazeGenerator\Scripts\TreeMazeGenerator.cs" Line="1" Column="1" />
