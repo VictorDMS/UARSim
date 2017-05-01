@@ -45,7 +45,6 @@ public class ScoreBehavior : MonoBehaviour {
         BackButtonText.GetComponent<Text>().text = "Start new level!";
         LayerFadeInOut.GetComponent<Image>().color = Color.clear;
         LayerFadeInOut.SetActive(false);
-        GlobalInformation.ExitConfigMenu = false;
     }
 
     public void onClickGoBackButton(){

@@ -19,6 +19,10 @@ public class LevelsManager : MonoBehaviour {
     public static bool LoadScore = false;
     public static bool LoadLevel = false;
 
+    public static bool ExitConfigMenu = false;
+    public static bool ExitScoreMenu = false;
+    public static bool FirstTimeNewLevel = true;
+
     public enum Levels { Start, L1, L2, L3, L4, End };
     private static Levels CurrentLevel = Levels.Start;
 
@@ -82,9 +86,9 @@ public class LevelsManager : MonoBehaviour {
                 break;
             case Levels.L4:
                 CurrentLevel = Levels.End;
+                LoadScore = true;
                 break;
         }
-        LoadScore = true;
     }
 
     public static Levels getCurrentLevel(){
@@ -92,23 +96,23 @@ public class LevelsManager : MonoBehaviour {
     }
 
     private static void loadLevel1(){
+        LoadLevel = true;
         LoadConfig = true;
         CurrentLevel = Levels.L1;
-        LoadLevel = true;
     }
     private static void loadLevel2(){
-        LoadConfig = true;
         CurrentLevel = Levels.L2;
         LoadLevel = true;
+        LoadScore = true;
     }
     private static void loadLevel3(){
-        LoadConfig = true;
         CurrentLevel = Levels.L3;
         LoadLevel = true;
+        LoadScore = true;
     }
     private static void loadLevel4(){
-        LoadConfig = true;
         CurrentLevel = Levels.L4;
         LoadLevel = true;
+        LoadScore = true;
     }
 }

@@ -14,8 +14,14 @@ public class ConfigBehavior : MonoBehaviour {
     [SerializeField]private GameObject HeavyRight, HeavyLeft, HeavyRandom;
     [SerializeField]private GameObject UltraRight, UltraLeft, UltraRandom;
     [SerializeField]private GameObject Quad, Light, Heavy, Ultra;
-    
-    public bool FirstTimeShown = true;
+
+    public enum VehicleRobotConfiguration { RANDOM, RIGHT, LEFT, UNKNOWN }
+    public enum QuadRobotConfiguration { SPIRAL, SCAN, RANDOM, UNKNOWN }
+
+    static public QuadRobotConfiguration QuadCurrentConfig = QuadRobotConfiguration.UNKNOWN;
+    static public VehicleRobotConfiguration LightCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
+    static public VehicleRobotConfiguration HeavyCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
+    static public VehicleRobotConfiguration UltraCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
 
     // Use this for initialization
     void Start()
@@ -37,7 +43,6 @@ public class ConfigBehavior : MonoBehaviour {
         enableObject(Light, false);
         enableObject(Heavy, false);
         enableObject(Ultra, false);
-        GlobalInformation.ExitConfigMenu = false;
     }
     public void onToggleQuadSpiral(bool newValue){
         if (newValue){
@@ -172,6 +177,12 @@ public class ConfigBehavior : MonoBehaviour {
                     BackButton.GetComponent<Button>().interactable = false;
                 break;
             case LevelsManager.Levels.L4:
+                if ((HeavyRight.GetComponent<Toggle>().isOn || HeavyLeft.GetComponent<Toggle>().isOn || HeavyRandom.GetComponent<Toggle>().isOn) &&
+                    (QuadRandom.GetComponent<Toggle>().isOn || QuadScan.GetComponent<Toggle>().isOn || QuadSpiral.GetComponent<Toggle>().isOn) &&
+                    (UltraRandom.GetComponent<Toggle>().isOn || UltraRight.GetComponent<Toggle>().isOn || UltraLeft.GetComponent<Toggle>().isOn))
+                    BackButton.GetComponent<Button>().interactable = true;
+                else
+                    BackButton.GetComponent<Button>().interactable = false;
                 break;
             default:
                 break;
@@ -189,46 +200,56 @@ public class ConfigBehavior : MonoBehaviour {
         StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, backToLevel));
     }
     void backToLevel(){
-        GlobalInformation.ExitConfigMenu = true;
+        LevelsManager.ExitConfigMenu = true;
     }
     
     public void launchConfigLayer(){
         switch (LevelsManager.getCurrentLevel()){
             case LevelsManager.Levels.L1:
                 loadLevel1Config();
-                if (GlobalInformation.LightCurrentConfig == GlobalInformation.VehicleRobotConfiguration.LEFT) LightLeft.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.LightCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RIGHT) LightRight.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.LightCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RANDOM) LightRandom.GetComponent<Toggle>().enabled = true;
-                if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                if (LightCurrentConfig == VehicleRobotConfiguration.LEFT) LightLeft.GetComponent<Toggle>().enabled = true;
+                else if (LightCurrentConfig == VehicleRobotConfiguration.RIGHT) LightRight.GetComponent<Toggle>().enabled = true;
+                else if (LightCurrentConfig == VehicleRobotConfiguration.RANDOM) LightRandom.GetComponent<Toggle>().enabled = true;
+                if (QuadCurrentConfig == QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
+                else if (QuadCurrentConfig == QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
+                else if (QuadCurrentConfig == QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
                 break;
             case LevelsManager.Levels.L2:
                 loadLevel2Config();
-                if (GlobalInformation.UltraCurrentConfig == GlobalInformation.VehicleRobotConfiguration.LEFT) UltraLeft.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.UltraCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RIGHT) UltraRight.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.UltraCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RANDOM) UltraRandom.GetComponent<Toggle>().enabled = true;
-                if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                if (UltraCurrentConfig == VehicleRobotConfiguration.LEFT) UltraLeft.GetComponent<Toggle>().enabled = true;
+                else if (UltraCurrentConfig == VehicleRobotConfiguration.RIGHT) UltraRight.GetComponent<Toggle>().enabled = true;
+                else if (UltraCurrentConfig == VehicleRobotConfiguration.RANDOM) UltraRandom.GetComponent<Toggle>().enabled = true;
+                if (QuadCurrentConfig == QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
+                else if (QuadCurrentConfig == QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
+                else if (QuadCurrentConfig == QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
                 break;
             case LevelsManager.Levels.L3:
                 loadLevel3Config();
-                if (GlobalInformation.HeavyCurrentConfig == GlobalInformation.VehicleRobotConfiguration.LEFT) HeavyLeft.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.HeavyCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RIGHT) HeavyRight.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.HeavyCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RANDOM) HeavyRandom.GetComponent<Toggle>().enabled = true;
-                if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
-                else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                if (HeavyCurrentConfig == VehicleRobotConfiguration.LEFT) HeavyLeft.GetComponent<Toggle>().enabled = true;
+                else if (HeavyCurrentConfig == VehicleRobotConfiguration.RIGHT) HeavyRight.GetComponent<Toggle>().enabled = true;
+                else if (HeavyCurrentConfig == VehicleRobotConfiguration.RANDOM) HeavyRandom.GetComponent<Toggle>().enabled = true;
+                if (QuadCurrentConfig == QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
+                else if (QuadCurrentConfig == QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
+                else if (QuadCurrentConfig == QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
                 break;
             case LevelsManager.Levels.L4:
+                loadLevel4Config();
+                if (HeavyCurrentConfig == VehicleRobotConfiguration.LEFT) HeavyLeft.GetComponent<Toggle>().enabled = true;
+                else if (HeavyCurrentConfig == VehicleRobotConfiguration.RIGHT) HeavyRight.GetComponent<Toggle>().enabled = true;
+                else if (HeavyCurrentConfig == VehicleRobotConfiguration.RANDOM) HeavyRandom.GetComponent<Toggle>().enabled = true;
+                if (QuadCurrentConfig == QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
+                else if (QuadCurrentConfig == QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
+                else if (QuadCurrentConfig == QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                if (UltraCurrentConfig == VehicleRobotConfiguration.LEFT) UltraLeft.GetComponent<Toggle>().enabled = true;
+                else if (UltraCurrentConfig == VehicleRobotConfiguration.RIGHT) UltraRight.GetComponent<Toggle>().enabled = true;
+                else if (UltraCurrentConfig == VehicleRobotConfiguration.RANDOM) UltraRandom.GetComponent<Toggle>().enabled = true;
+                break;
             default:
                 break;
         }
         BackButtonText.GetComponent<Text>().text = "Go Back";
         LayerFadeInOut.GetComponent<Image>().color = Color.clear;
         LayerFadeInOut.SetActive(false);
-        GlobalInformation.ExitConfigMenu = false;
     }
 
     public void loadLevel1Config(){
@@ -240,14 +261,14 @@ public class ConfigBehavior : MonoBehaviour {
     public void loadLevel2Config(){
         enableObject(Quad, true);
         enableObject(Light, false);
-        enableObject(Heavy, true);
-        enableObject(Ultra, false);
+        enableObject(Heavy, false);
+        enableObject(Ultra, true);
     }
     public void loadLevel3Config(){
         enableObject(Quad, true);
         enableObject(Light, false);
-        enableObject(Heavy, false);
-        enableObject(Ultra, true);
+        enableObject(Heavy, true);
+        enableObject(Ultra, false);
     }
     public void loadLevel4Config(){
         enableObject(Quad, true);
@@ -258,45 +279,45 @@ public class ConfigBehavior : MonoBehaviour {
     void storeQuadConfiguration(){
         //QUAD
         if (QuadScan.GetComponent<Toggle>().isOn)
-            GlobalInformation.QuadCurrentConfig = GlobalInformation.QuadRobotConfiguration.SCAN;
+            QuadCurrentConfig = QuadRobotConfiguration.SCAN;
         else if (QuadRandom.GetComponent<Toggle>().isOn)
-            GlobalInformation.QuadCurrentConfig = GlobalInformation.QuadRobotConfiguration.RANDOM;
+            QuadCurrentConfig = QuadRobotConfiguration.RANDOM;
         else if (QuadSpiral.GetComponent<Toggle>().isOn)
-            GlobalInformation.QuadCurrentConfig = GlobalInformation.QuadRobotConfiguration.SPIRAL;
+            QuadCurrentConfig = QuadRobotConfiguration.SPIRAL;
         else
-            GlobalInformation.QuadCurrentConfig = GlobalInformation.QuadRobotConfiguration.UNKNOWN;
+            QuadCurrentConfig = QuadRobotConfiguration.UNKNOWN;
     }
     void storeLightConfiguration(){
         //LIGHT
         if (LightRight.GetComponent<Toggle>().isOn)
-            GlobalInformation.LightCurrentConfig = GlobalInformation.VehicleRobotConfiguration.RIGHT;
+            LightCurrentConfig = VehicleRobotConfiguration.RIGHT;
         else if (LightLeft.GetComponent<Toggle>().isOn)
-            GlobalInformation.LightCurrentConfig = GlobalInformation.VehicleRobotConfiguration.LEFT;
+            LightCurrentConfig = VehicleRobotConfiguration.LEFT;
         else if (LightRandom.GetComponent<Toggle>().isOn)
-            GlobalInformation.LightCurrentConfig = GlobalInformation.VehicleRobotConfiguration.RANDOM;
+            LightCurrentConfig = VehicleRobotConfiguration.RANDOM;
         else
-            GlobalInformation.LightCurrentConfig = GlobalInformation.VehicleRobotConfiguration.UNKNOWN;
+            LightCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
     }
     void storeHeavyConfiguration(){
         //HEAVY
         if (HeavyRight.GetComponent<Toggle>().isOn)
-            GlobalInformation.HeavyCurrentConfig = GlobalInformation.VehicleRobotConfiguration.RIGHT;
+            HeavyCurrentConfig = VehicleRobotConfiguration.RIGHT;
         else if (HeavyLeft.GetComponent<Toggle>().isOn)
-            GlobalInformation.HeavyCurrentConfig = GlobalInformation.VehicleRobotConfiguration.LEFT;
+            HeavyCurrentConfig = VehicleRobotConfiguration.LEFT;
         else if (HeavyRandom.GetComponent<Toggle>().isOn)
-            GlobalInformation.HeavyCurrentConfig = GlobalInformation.VehicleRobotConfiguration.RANDOM;
+            HeavyCurrentConfig = VehicleRobotConfiguration.RANDOM;
         else
-            GlobalInformation.HeavyCurrentConfig = GlobalInformation.VehicleRobotConfiguration.UNKNOWN;
+            HeavyCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
     }
     void storeUltraConfiguration(){
         //ULTRA
         if (UltraRight.GetComponent<Toggle>().isOn)
-            GlobalInformation.UltraCurrentConfig = GlobalInformation.VehicleRobotConfiguration.RIGHT;
+            UltraCurrentConfig = VehicleRobotConfiguration.RIGHT;
         else if (UltraLeft.GetComponent<Toggle>().isOn)
-            GlobalInformation.UltraCurrentConfig = GlobalInformation.VehicleRobotConfiguration.LEFT;
+            UltraCurrentConfig = VehicleRobotConfiguration.LEFT;
         else if (UltraRandom.GetComponent<Toggle>().isOn)
-            GlobalInformation.UltraCurrentConfig = GlobalInformation.VehicleRobotConfiguration.RANDOM;
+            UltraCurrentConfig = VehicleRobotConfiguration.RANDOM;
         else
-            GlobalInformation.UltraCurrentConfig = GlobalInformation.VehicleRobotConfiguration.UNKNOWN;
+            UltraCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
     }
 }

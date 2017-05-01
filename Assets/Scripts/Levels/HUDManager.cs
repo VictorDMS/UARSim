@@ -25,32 +25,12 @@ public class HUDManager : MonoBehaviour {
     }
     
     void showConfigWindow(){
-        LayerFadeInOut.SetActive(false);
         LevelControllerObj.GetComponent<LevelController>().showConfigWindow();
     }
 
     void changeRobotControl(){
         Debug.Log("Click on change Robot State");
-        switch (LevelController.rstate){
-            case LevelController.RobotState.DRONE:
-                LevelControllerObj.GetComponent<LevelController>().enableVehicle();
-                ActualRobotName.GetComponent<Text>().text = "Light Vehicle";
-                LevelController.rstate = LevelController.RobotState.VEHICLE;
-                VehicleFPSController.m_AutoWalkingState = VehicleFPSController.AutoWalkingState.Disabled;
-                DroneFPSController.m_AutoWalkingState = DroneFPSController.AutoWalkingState.Starting;
-                break;
-            case LevelController.RobotState.VEHICLE:
-                LevelControllerObj.GetComponent<LevelController>().enableDrone();
-                ActualRobotName.GetComponent<Text>().text = "Quadcopter";
-                LevelController.rstate = LevelController.RobotState.DRONE;
-                DroneFPSController.m_AutoWalkingState = DroneFPSController.AutoWalkingState.Disabled;
-                VehicleFPSController.m_AutoWalkingState = VehicleFPSController.AutoWalkingState.Starting;
-                break;
-            default:
-                Debug.Log("Unknown Robot state.");
-                LevelController.rstate = LevelController.RobotState.unknown;
-                break;
-        }
+        LevelControllerObj.GetComponent<LevelController>().changeActiveRobot();
         StartCoroutine(Fade.fadeOutCoroutine(LayerFadeInOut, FadeInOutSpeed));
     }
 	public void onClickMiniMap() {//We display the map with full size
@@ -66,12 +46,7 @@ public class HUDManager : MonoBehaviour {
 		miniMap.SetActive(true);
 		fullMap.SetActive(false);
 		cancelFullMapButton.SetActive(false);
-        LevelControllerObj.GetComponent<LevelController>().disableRobots();
-        if (LevelController.rstate == LevelController.RobotState.DRONE) {
-            LevelControllerObj.GetComponent<LevelController>().enableDrone();
-		} else if (LevelController.rstate == LevelController.RobotState.VEHICLE) {
-            LevelControllerObj.GetComponent<LevelController>().enableVehicle();
-		}
+        LevelControllerObj.GetComponent<LevelController>().loadActiveRobot();
 	}
     public void loadActualRobotName(string RobotName) {
         ActualRobotName.GetComponent<Text>().text = RobotName;

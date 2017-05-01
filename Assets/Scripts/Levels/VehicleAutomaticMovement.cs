@@ -12,12 +12,12 @@ public class VehicleAutomaticMovement : AutomaticMovement
     
     public override void buildWaypointsPathForCurrentConfiguration(Transform CurrentPosition)
     {
-        if (GlobalInformation.LightCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RIGHT)
-            basicPathCreator(CurrentPosition, (uint)GlobalInformation.VehicleRobotConfiguration.RIGHT);
-        else if (GlobalInformation.LightCurrentConfig == GlobalInformation.VehicleRobotConfiguration.LEFT)
-            basicPathCreator(CurrentPosition, (uint)GlobalInformation.VehicleRobotConfiguration.LEFT);
-        else if (GlobalInformation.LightCurrentConfig == GlobalInformation.VehicleRobotConfiguration.RANDOM)
-            basicPathCreator(CurrentPosition, (uint)GlobalInformation.VehicleRobotConfiguration.RANDOM);
+        if (ConfigBehavior.LightCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RIGHT)
+            basicPathCreator(CurrentPosition, (uint)ConfigBehavior.VehicleRobotConfiguration.RIGHT);
+        else if (ConfigBehavior.LightCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.LEFT)
+            basicPathCreator(CurrentPosition, (uint)ConfigBehavior.VehicleRobotConfiguration.LEFT);
+        else if (ConfigBehavior.LightCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RANDOM)
+            basicPathCreator(CurrentPosition, (uint)ConfigBehavior.VehicleRobotConfiguration.RANDOM);
     }
     
     public override void basicPathCreator(Transform CurrentPosition, uint Config)
@@ -57,13 +57,13 @@ public class VehicleAutomaticMovement : AutomaticMovement
 
             bool RandomMovement = false;
             bool StepDone = true;
-            if ((GlobalInformation.VehicleRobotConfiguration)Config == GlobalInformation.VehicleRobotConfiguration.LEFT)
+            if ((ConfigBehavior.VehicleRobotConfiguration)Config == ConfigBehavior.VehicleRobotConfiguration.LEFT)
             {
                 Direction TempDirection = PriorizedDirections[0];
                 PriorizedDirections[0] = PriorizedDirections[2];
                 PriorizedDirections[2] = TempDirection;
             }
-            else if ((GlobalInformation.VehicleRobotConfiguration)Config == GlobalInformation.VehicleRobotConfiguration.RANDOM)
+            else if ((ConfigBehavior.VehicleRobotConfiguration)Config == ConfigBehavior.VehicleRobotConfiguration.RANDOM)
             {
                 RandomMovement = true;
             }

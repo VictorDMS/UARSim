@@ -9,12 +9,12 @@ public class DroneAutomaticMovement : AutomaticMovement
     
     public override void buildWaypointsPathForCurrentConfiguration(Transform CurrentPosition)
     {
-        if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SPIRAL)
-            basicPathCreator(CurrentPosition, (uint)GlobalInformation.QuadRobotConfiguration.SPIRAL);
-        else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.SCAN)
-            basicPathCreator(CurrentPosition, (uint)GlobalInformation.QuadRobotConfiguration.SCAN);
-        else if (GlobalInformation.QuadCurrentConfig == GlobalInformation.QuadRobotConfiguration.RANDOM)
-            basicPathCreator(CurrentPosition, (uint)GlobalInformation.QuadRobotConfiguration.RANDOM);
+        if (ConfigBehavior.QuadCurrentConfig == ConfigBehavior.QuadRobotConfiguration.SPIRAL)
+            basicPathCreator(CurrentPosition, (uint)ConfigBehavior.QuadRobotConfiguration.SPIRAL);
+        else if (ConfigBehavior.QuadCurrentConfig == ConfigBehavior.QuadRobotConfiguration.SCAN)
+            basicPathCreator(CurrentPosition, (uint)ConfigBehavior.QuadRobotConfiguration.SCAN);
+        else if (ConfigBehavior.QuadCurrentConfig == ConfigBehavior.QuadRobotConfiguration.RANDOM)
+            basicPathCreator(CurrentPosition, (uint)ConfigBehavior.QuadRobotConfiguration.RANDOM);
     }
     
     public override void basicPathCreator(Transform CurrentPosition, uint Config)
@@ -45,7 +45,7 @@ public class DroneAutomaticMovement : AutomaticMovement
 
         while (Steps < WAYPOINTS_COUNT)
         {
-            if ((GlobalInformation.QuadRobotConfiguration)Config == GlobalInformation.QuadRobotConfiguration.SCAN)
+            if ((ConfigBehavior.QuadRobotConfiguration)Config == ConfigBehavior.QuadRobotConfiguration.SCAN)
             {
                 //Change Direction of movement
                 if ((CurrentDirection == Direction.WEST) && (ColumnIndex >= ((MazeSpawner.Columns * 2) + 1 - MARGIN_POSITION)) &&
@@ -93,7 +93,7 @@ public class DroneAutomaticMovement : AutomaticMovement
                     }
                 }
             }
-            else if ((GlobalInformation.QuadRobotConfiguration)Config == GlobalInformation.QuadRobotConfiguration.RANDOM)
+            else if ((ConfigBehavior.QuadRobotConfiguration)Config == ConfigBehavior.QuadRobotConfiguration.RANDOM)
             {
 
                 if (CounterSameDirection == 0)
@@ -134,7 +134,7 @@ public class DroneAutomaticMovement : AutomaticMovement
                     }
                 }
             }
-            else if ((GlobalInformation.QuadRobotConfiguration)Config == GlobalInformation.QuadRobotConfiguration.SPIRAL)
+            else if ((ConfigBehavior.QuadRobotConfiguration)Config == ConfigBehavior.QuadRobotConfiguration.SPIRAL)
             {
 
                 if (FirstTimeSpiral)

@@ -134,7 +134,9 @@
     <Compile Include="Assets\MazeGenerator\Scripts\RecursiveTreeMazeGenerator.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\RollerBall.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\TreeMazeGenerator.cs" />
+    <Compile Include="Assets\Scripts\Controls\ControlsManager.cs" />
     <Compile Include="Assets\Scripts\Fade.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\IntroScene\IntroGame.cs" />
     <Compile Include="Assets\Scripts\Levels\AutomaticMovement.cs" />
     <Compile Include="Assets\Scripts\Levels\ConfigBehavior.cs" />
@@ -145,12 +147,12 @@
     <Compile Include="Assets\Scripts\Levels\GlobalInformation.cs" />
     <Compile Include="Assets\Scripts\Levels\HUDManager.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelController.cs" />
+    <Compile Include="Assets\Scripts\Levels\LevelsManager.cs" />
     <Compile Include="Assets\Scripts\Levels\StopwatchUpdater.cs" />
     <Compile Include="Assets\Scripts\Levels\VehicleAutomaticMovement.cs" />
     <Compile Include="Assets\Scripts\Levels\VehicleCollider.cs" />
     <Compile Include="Assets\Scripts\Levels\VehicleFPSController.cs" />
     <Compile Include="Assets\Scripts\Levels\VehicleMapDiscover.cs" />
-    <Compile Include="Assets\Scripts\LevelsLoader.cs" />
     <Compile Include="Assets\Scripts\Loading\LoadingBehavior.cs" />
     <Compile Include="Assets\Scripts\Score\ScoreBehavior.cs" />
     <Compile Include="Assets\Scripts\TutorialScene\TutorialCanvasBehavior.cs" />

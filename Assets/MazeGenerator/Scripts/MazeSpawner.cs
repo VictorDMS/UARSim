@@ -29,9 +29,11 @@ public class MazeSpawner : MonoBehaviour {
 
     public void loadMaze(short NumberOfGoalPrefab){
 
-        Array.Clear(AutomaticMovement.MazeMatrix3DPoints, 0, AutomaticMovement.MazeMatrix3DPoints.Length);
-        Array.Clear(AutomaticMovement.MazeMatrix, 0, AutomaticMovement.MazeMatrix.Length);
-        removeOldMaze();
+        if(AutomaticMovement.MazeMatrix3DPoints != null && AutomaticMovement.MazeMatrix != null){
+            Array.Clear(AutomaticMovement.MazeMatrix3DPoints, 0, AutomaticMovement.MazeMatrix3DPoints.Length);
+            Array.Clear(AutomaticMovement.MazeMatrix, 0, AutomaticMovement.MazeMatrix.Length);
+            removeOldMaze();
+        }
 
         if (!FullRandom){
             UnityEngine.Random.seed = RandomSeed;

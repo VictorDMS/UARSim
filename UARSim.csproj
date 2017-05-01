@@ -76,6 +76,12 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
+    </Reference>
     <Reference Include="AWSSDK.CognitoIdentity">
       <HintPath>Assets\AWSSDK\AWSSDK.CognitoIdentity.dll</HintPath>
     </Reference>
@@ -159,7 +165,6 @@
     <Compile Include="Assets\Scripts\Levels\DroneAutomaticMovement.cs" />
     <Compile Include="Assets\Scripts\Levels\DroneFPSController.cs" />
     <Compile Include="Assets\Scripts\Levels\DroneMapDiscover.cs" />
-    <Compile Include="Assets\Scripts\Levels\GlobalInformation.cs" />
     <Compile Include="Assets\Scripts\Levels\HUDManager.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelController.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelsManager.cs" />

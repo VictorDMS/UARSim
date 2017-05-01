@@ -10,8 +10,6 @@ public class VehicleFPSController : MonoBehaviour
 {
     [SerializeField]private float m_WalkSpeed;
     [SerializeField]private float m_JumpSpeed;
-    [SerializeField]private float m_StickToGroundForce;
-    [SerializeField]private float m_GravityMultiplier;
     [SerializeField]private MouseLook m_MouseLook;
     [SerializeField]private LerpControlledBob m_JumpBob = new LerpControlledBob();
     [SerializeField]private float m_StepInterval;
@@ -92,8 +90,7 @@ public class VehicleFPSController : MonoBehaviour
 
         if (m_CharacterController.isGrounded)
         {
-            m_MoveDir.y = -m_StickToGroundForce;
-
+            m_MoveDir.y = 0;
             if (m_Jump)
             {
                 m_MoveDir.y = m_JumpSpeed;
@@ -102,10 +99,7 @@ public class VehicleFPSController : MonoBehaviour
                 m_Jumping = true;
             }
         }
-        else
-        {
-            m_MoveDir += Physics.gravity * m_GravityMultiplier * Time.fixedDeltaTime;
-        }
+
         m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
         ProgressStepCycle(m_WalkSpeed);
@@ -238,5 +232,10 @@ public class VehicleFPSController : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void resetPosition(){
+        transform.position = new Vector3(0.0f, 0.0f, 0.0f);
+        transform.localEulerAngles = Vector3.right;
     }
 }
