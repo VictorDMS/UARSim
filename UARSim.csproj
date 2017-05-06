@@ -76,12 +76,6 @@
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Common">
-      <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Common.dll</HintPath>
-    </Reference>
     <Reference Include="AWSSDK.CognitoIdentity">
       <HintPath>Assets\AWSSDK\AWSSDK.CognitoIdentity.dll</HintPath>
     </Reference>
@@ -147,6 +141,7 @@
     <Compile Include="Assets\Examples\TableQueryAndScanExample.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\BasicMazeGenerator.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\DivisionMazeGenerator.cs" />
+    <Compile Include="Assets\MazeGenerator\Scripts\GoalRotation.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\MazeCell.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\MazeSpawner.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\OldestTreeMazeGenerator.cs" />
@@ -159,22 +154,25 @@
     <Compile Include="Assets\Scripts\Fade.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\IntroScene\IntroGame.cs" />
+    <Compile Include="Assets\Scripts\Levels\AWS\DBModel.cs" />
+    <Compile Include="Assets\Scripts\Levels\AWS\ScoreDBEntity.cs" />
+    <Compile Include="Assets\Scripts\Levels\AWS\ScoreDBModel.cs" />
     <Compile Include="Assets\Scripts\Levels\AutomaticMovement.cs" />
     <Compile Include="Assets\Scripts\Levels\ConfigBehavior.cs" />
-    <Compile Include="Assets\Scripts\Levels\DBModel.cs" />
     <Compile Include="Assets\Scripts\Levels\DroneAutomaticMovement.cs" />
     <Compile Include="Assets\Scripts\Levels\DroneFPSController.cs" />
     <Compile Include="Assets\Scripts\Levels\DroneMapDiscover.cs" />
     <Compile Include="Assets\Scripts\Levels\HUDManager.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelController.cs" />
     <Compile Include="Assets\Scripts\Levels\LevelsManager.cs" />
+    <Compile Include="Assets\Scripts\Levels\ScoreBehavior.cs" />
     <Compile Include="Assets\Scripts\Levels\StopwatchUpdater.cs" />
     <Compile Include="Assets\Scripts\Levels\VehicleAutomaticMovement.cs" />
     <Compile Include="Assets\Scripts\Levels\VehicleCollider.cs" />
     <Compile Include="Assets\Scripts\Levels\VehicleFPSController.cs" />
     <Compile Include="Assets\Scripts\Levels\VehicleMapDiscover.cs" />
     <Compile Include="Assets\Scripts\Loading\LoadingBehavior.cs" />
-    <Compile Include="Assets\Scripts\Score\ScoreBehavior.cs" />
+    <Compile Include="Assets\Scripts\Timer.cs" />
     <Compile Include="Assets\Scripts\TutorialScene\TutorialCanvasBehavior.cs" />
   </ItemGroup>
   <ItemGroup>

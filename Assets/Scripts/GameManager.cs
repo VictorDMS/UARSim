@@ -11,12 +11,6 @@ public class GameManager : MonoBehaviour{
         else if (instance != this)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
-        
-        InitGame();
-    }
-    
-    void InitGame(){
-
     }
 
     public static void loadLoading(){

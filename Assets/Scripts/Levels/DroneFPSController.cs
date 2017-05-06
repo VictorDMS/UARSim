@@ -8,7 +8,7 @@ using UnityStandardAssets.Characters.FirstPerson;
 [RequireComponent(typeof(AudioSource))]
 public class DroneFPSController : MonoBehaviour
 {
-    [SerializeField]private float m_WalkSpeed;
+    private float m_WalkSpeed;
     [SerializeField]private float m_StickToGroundForce;
     [SerializeField]private float m_GravityMultiplier;
     [SerializeField]private MouseLook m_MouseLook;
@@ -186,5 +186,17 @@ public class DroneFPSController : MonoBehaviour
     }
     public void resetPosition(){
         transform.position = new Vector3(0.0f, 10.0f, 0.0f);
+    }
+    public void loadLevel1Params(){ //Light Robot
+        m_WalkSpeed = 4.0f;
+    }
+    public void loadLevel2Params(){ //Ultra Light Robot
+        m_WalkSpeed = 3.0f;
+    }
+    public void loadLevel3Params(){ //Heavy Robot
+        m_WalkSpeed = 4.0f;
+    }
+    public void loadLevel4Params(){ //Do not fucking know :)
+        m_WalkSpeed = 4.0f;
     }
 }

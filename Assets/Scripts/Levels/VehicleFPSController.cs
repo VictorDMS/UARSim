@@ -8,7 +8,7 @@ using UnityStandardAssets.Characters.FirstPerson;
 [RequireComponent(typeof(AudioSource))]
 public class VehicleFPSController : MonoBehaviour
 {
-    [SerializeField]private float m_WalkSpeed;
+    private float m_WalkSpeed;
     [SerializeField]private float m_JumpSpeed;
     [SerializeField]private MouseLook m_MouseLook;
     [SerializeField]private LerpControlledBob m_JumpBob = new LerpControlledBob();
@@ -237,5 +237,18 @@ public class VehicleFPSController : MonoBehaviour
     public void resetPosition(){
         transform.position = new Vector3(0.0f, 0.0f, 0.0f);
         transform.localEulerAngles = Vector3.right;
+    }
+
+    public void loadLevel1Params(){ //Light Robot
+        m_WalkSpeed = 4.0f;
+    }
+    public void loadLevel2Params(){ //Ultra Light Robot
+        m_WalkSpeed = 10.0f;
+    }
+    public void loadLevel3Params(){ //Heavy Robot
+        m_WalkSpeed = 1.5f;
+    }
+    public void loadLevel4Params(){ //Do not fucking know :)
+        m_WalkSpeed = 4.0f;
     }
 }

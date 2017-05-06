@@ -14,18 +14,20 @@ public class ConfigBehavior : MonoBehaviour {
     [SerializeField]private GameObject HeavyRight, HeavyLeft, HeavyRandom;
     [SerializeField]private GameObject UltraRight, UltraLeft, UltraRandom;
     [SerializeField]private GameObject Quad, Light, Heavy, Ultra;
+    [SerializeField]private GameObject QuadAuto, LightAuto, HeavyAuto, UltraAuto;
 
     public enum VehicleRobotConfiguration { RANDOM, RIGHT, LEFT, UNKNOWN }
     public enum QuadRobotConfiguration { SPIRAL, SCAN, RANDOM, UNKNOWN }
+    public enum RobotTypes { DRONE, LIGHT, HEAVY, ULTRA, UNKNOWN }
 
     static public QuadRobotConfiguration QuadCurrentConfig = QuadRobotConfiguration.UNKNOWN;
     static public VehicleRobotConfiguration LightCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
     static public VehicleRobotConfiguration HeavyCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
     static public VehicleRobotConfiguration UltraCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
+    static public RobotTypes AutoConfiguration = RobotTypes.UNKNOWN;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start(){
         LayerFadeInOut.GetComponent<Image>().color = Color.clear;
         QuadSpiral.GetComponent<Toggle>().isOn = false;
         QuadScan.GetComponent<Toggle>().isOn = false;
@@ -39,6 +41,10 @@ public class ConfigBehavior : MonoBehaviour {
         UltraRight.GetComponent<Toggle>().isOn = false;
         UltraLeft.GetComponent<Toggle>().isOn = false;
         UltraRandom.GetComponent<Toggle>().isOn = false;
+        QuadAuto.GetComponent<Slider>().value = 0;
+        LightAuto.GetComponent<Slider>().value = 0;
+        HeavyAuto.GetComponent<Slider>().value = 0;
+        UltraAuto.GetComponent<Slider>().value = 0;
         enableObject(Quad, false);
         enableObject(Light, false);
         enableObject(Heavy, false);
@@ -151,27 +157,66 @@ public class ConfigBehavior : MonoBehaviour {
         }
         updateButton();
     }
+    public void onValueChangedQuadAuto(int value){
+        if (value > 0){
+            QuadAuto.GetComponent<Slider>().value = 1;
+            LightAuto.GetComponent<Slider>().value = 0;
+            HeavyAuto.GetComponent<Slider>().value = 0;
+            UltraAuto.GetComponent<Slider>().value = 0;
+        }
+        updateButton();
+    }
+    public void onValueChangedLightAuto(int value){
+        if (value > 0){
+            QuadAuto.GetComponent<Slider>().value = 0;
+            LightAuto.GetComponent<Slider>().value = 1;
+            HeavyAuto.GetComponent<Slider>().value = 0;
+            UltraAuto.GetComponent<Slider>().value = 0;
+        }
+        updateButton();
+    }
+    public void onValueChangedHeavyAuto(int value){
+        if (value > 0){
+            QuadAuto.GetComponent<Slider>().value = 0;
+            LightAuto.GetComponent<Slider>().value = 0;
+            HeavyAuto.GetComponent<Slider>().value = 1;
+            UltraAuto.GetComponent<Slider>().value = 0;
+        }
+        updateButton();
+    }
+    public void onValueChangedUltraAuto(int value){
+        if (value > 0){
+            QuadAuto.GetComponent<Slider>().value = 0;
+            LightAuto.GetComponent<Slider>().value = 0;
+            HeavyAuto.GetComponent<Slider>().value = 0;
+            UltraAuto.GetComponent<Slider>().value = 1;
+        }
+        updateButton();
+    }
     private void updateButton()
     {
         switch (LevelsManager.getCurrentLevel())
         {
             case LevelsManager.Levels.L1:
                 if ((LightRight.GetComponent<Toggle>().isOn || LightLeft.GetComponent<Toggle>().isOn || LightRandom.GetComponent<Toggle>().isOn) &&
-                    (QuadRandom.GetComponent<Toggle>().isOn || QuadScan.GetComponent<Toggle>().isOn || QuadSpiral.GetComponent<Toggle>().isOn))
+                    (QuadRandom.GetComponent<Toggle>().isOn || QuadScan.GetComponent<Toggle>().isOn || QuadSpiral.GetComponent<Toggle>().isOn) && 
+                    (QuadAuto.GetComponent<Slider>().value > 0 || LightAuto.GetComponent<Slider>().value > 0))
                     BackButton.GetComponent<Button>().interactable = true;
                 else
                     BackButton.GetComponent<Button>().interactable = false;
                 break;
             case LevelsManager.Levels.L2:
                 if ((UltraRight.GetComponent<Toggle>().isOn || UltraLeft.GetComponent<Toggle>().isOn || UltraRandom.GetComponent<Toggle>().isOn) &&
-                    (QuadRandom.GetComponent<Toggle>().isOn || QuadScan.GetComponent<Toggle>().isOn || QuadSpiral.GetComponent<Toggle>().isOn))
+                    (QuadRandom.GetComponent<Toggle>().isOn || QuadScan.GetComponent<Toggle>().isOn || QuadSpiral.GetComponent<Toggle>().isOn) &&
+                    (QuadAuto.GetComponent<Slider>().value > 0 || UltraAuto.GetComponent<Slider>().value > 0))
                     BackButton.GetComponent<Button>().interactable = true;
                 else
                     BackButton.GetComponent<Button>().interactable = false;
                 break;
             case LevelsManager.Levels.L3:
                 if ((HeavyRight.GetComponent<Toggle>().isOn || HeavyLeft.GetComponent<Toggle>().isOn || HeavyRandom.GetComponent<Toggle>().isOn) &&
-                    (QuadRandom.GetComponent<Toggle>().isOn || QuadScan.GetComponent<Toggle>().isOn || QuadSpiral.GetComponent<Toggle>().isOn))
+                    (QuadRandom.GetComponent<Toggle>().isOn || QuadScan.GetComponent<Toggle>().isOn || QuadSpiral.GetComponent<Toggle>().isOn) && 
+                    (QuadAuto.GetComponent<Slider>().value > 0 || HeavyAuto.GetComponent<Slider>().value > 0))
                     BackButton.GetComponent<Button>().interactable = true;
                 else
                     BackButton.GetComponent<Button>().interactable = false;
@@ -179,7 +224,8 @@ public class ConfigBehavior : MonoBehaviour {
             case LevelsManager.Levels.L4:
                 if ((HeavyRight.GetComponent<Toggle>().isOn || HeavyLeft.GetComponent<Toggle>().isOn || HeavyRandom.GetComponent<Toggle>().isOn) &&
                     (QuadRandom.GetComponent<Toggle>().isOn || QuadScan.GetComponent<Toggle>().isOn || QuadSpiral.GetComponent<Toggle>().isOn) &&
-                    (UltraRandom.GetComponent<Toggle>().isOn || UltraRight.GetComponent<Toggle>().isOn || UltraLeft.GetComponent<Toggle>().isOn))
+                    (UltraRandom.GetComponent<Toggle>().isOn || UltraRight.GetComponent<Toggle>().isOn || UltraLeft.GetComponent<Toggle>().isOn) && 
+                    (QuadAuto.GetComponent<Slider>().value > 0 || HeavyAuto.GetComponent<Slider>().value > 0 || UltraAuto.GetComponent<Slider>().value > 0))
                     BackButton.GetComponent<Button>().interactable = true;
                 else
                     BackButton.GetComponent<Button>().interactable = false;
@@ -196,7 +242,8 @@ public class ConfigBehavior : MonoBehaviour {
         storeLightConfiguration();
         storeHeavyConfiguration();
         storeUltraConfiguration();
-        
+        storeAutoConfiguration();
+
         StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, backToLevel));
     }
     void backToLevel(){
@@ -213,6 +260,8 @@ public class ConfigBehavior : MonoBehaviour {
                 if (QuadCurrentConfig == QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
                 else if (QuadCurrentConfig == QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
                 else if (QuadCurrentConfig == QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                if (AutoConfiguration == RobotTypes.DRONE) QuadAuto.GetComponent<Slider>().value = 1;
+                else if (AutoConfiguration == RobotTypes.LIGHT) LightAuto.GetComponent<Slider>().value = 1;
                 break;
             case LevelsManager.Levels.L2:
                 loadLevel2Config();
@@ -222,6 +271,8 @@ public class ConfigBehavior : MonoBehaviour {
                 if (QuadCurrentConfig == QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
                 else if (QuadCurrentConfig == QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
                 else if (QuadCurrentConfig == QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                if (AutoConfiguration == RobotTypes.DRONE) QuadAuto.GetComponent<Slider>().value = 1;
+                else if (AutoConfiguration == RobotTypes.ULTRA) UltraAuto.GetComponent<Slider>().value = 1;
                 break;
             case LevelsManager.Levels.L3:
                 loadLevel3Config();
@@ -231,6 +282,8 @@ public class ConfigBehavior : MonoBehaviour {
                 if (QuadCurrentConfig == QuadRobotConfiguration.SPIRAL) QuadSpiral.GetComponent<Toggle>().enabled = true;
                 else if (QuadCurrentConfig == QuadRobotConfiguration.SCAN) QuadScan.GetComponent<Toggle>().enabled = true;
                 else if (QuadCurrentConfig == QuadRobotConfiguration.RANDOM) QuadRandom.GetComponent<Toggle>().enabled = true;
+                if (AutoConfiguration == RobotTypes.DRONE) QuadAuto.GetComponent<Slider>().value = 1;
+                else if (AutoConfiguration == RobotTypes.HEAVY) HeavyAuto.GetComponent<Slider>().value = 1;
                 break;
             case LevelsManager.Levels.L4:
                 loadLevel4Config();
@@ -243,13 +296,20 @@ public class ConfigBehavior : MonoBehaviour {
                 if (UltraCurrentConfig == VehicleRobotConfiguration.LEFT) UltraLeft.GetComponent<Toggle>().enabled = true;
                 else if (UltraCurrentConfig == VehicleRobotConfiguration.RIGHT) UltraRight.GetComponent<Toggle>().enabled = true;
                 else if (UltraCurrentConfig == VehicleRobotConfiguration.RANDOM) UltraRandom.GetComponent<Toggle>().enabled = true;
+                if (AutoConfiguration == RobotTypes.DRONE) QuadAuto.GetComponent<Slider>().value = 1;
+                else if (AutoConfiguration == RobotTypes.HEAVY) HeavyAuto.GetComponent<Slider>().value = 1;
+                else if (AutoConfiguration == RobotTypes.ULTRA) UltraAuto.GetComponent<Slider>().value = 1;
                 break;
             default:
                 break;
         }
-        BackButtonText.GetComponent<Text>().text = "Go Back";
         LayerFadeInOut.GetComponent<Image>().color = Color.clear;
         LayerFadeInOut.SetActive(false);
+
+        if (LevelsManager.FirstTimeNewLevel)
+            BackButtonText.GetComponent<Text>().text = "Start Level";
+        else
+            BackButtonText.GetComponent<Text>().text = "Back To Mission";
     }
 
     public void loadLevel1Config(){
@@ -319,5 +379,18 @@ public class ConfigBehavior : MonoBehaviour {
             UltraCurrentConfig = VehicleRobotConfiguration.RANDOM;
         else
             UltraCurrentConfig = VehicleRobotConfiguration.UNKNOWN;
+    }
+    void storeAutoConfiguration(){
+        //AUTO CONFIG
+        if (QuadAuto.GetComponent<Slider>().value > 0)
+            AutoConfiguration = RobotTypes.DRONE;
+        if (LightAuto.GetComponent<Slider>().value > 0)
+            AutoConfiguration = RobotTypes.LIGHT;
+        if (HeavyAuto.GetComponent<Slider>().value > 0)
+            AutoConfiguration = RobotTypes.HEAVY;
+        if (UltraAuto.GetComponent<Slider>().value > 0)
+            AutoConfiguration = RobotTypes.ULTRA;
+        else
+            AutoConfiguration = RobotTypes.UNKNOWN;
     }
 }

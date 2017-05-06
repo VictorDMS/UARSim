@@ -23,6 +23,9 @@ public class LevelsManager : MonoBehaviour {
     public static bool ExitScoreMenu = false;
     public static bool FirstTimeNewLevel = true;
 
+    public static bool ShowFirstTimeControlImageVehicle = true;
+    public static bool ShowFirstTimeControlImageDrone = true;
+
     public enum Levels { Start, L1, L2, L3, L4, End };
     private static Levels CurrentLevel = Levels.Start;
 
