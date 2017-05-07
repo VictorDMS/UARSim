@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ConfigBehavior : MonoBehaviour {
@@ -157,8 +155,8 @@ public class ConfigBehavior : MonoBehaviour {
         }
         updateButton();
     }
-    public void onValueChangedQuadAuto(int value){
-        if (value > 0){
+    public void onValueChangedQuadAuto(float newValue){
+        if (newValue > 0){
             QuadAuto.GetComponent<Slider>().value = 1;
             LightAuto.GetComponent<Slider>().value = 0;
             HeavyAuto.GetComponent<Slider>().value = 0;
@@ -166,8 +164,8 @@ public class ConfigBehavior : MonoBehaviour {
         }
         updateButton();
     }
-    public void onValueChangedLightAuto(int value){
-        if (value > 0){
+    public void onValueChangedLightAuto(float newValue){
+        if (newValue > 0){
             QuadAuto.GetComponent<Slider>().value = 0;
             LightAuto.GetComponent<Slider>().value = 1;
             HeavyAuto.GetComponent<Slider>().value = 0;
@@ -175,8 +173,8 @@ public class ConfigBehavior : MonoBehaviour {
         }
         updateButton();
     }
-    public void onValueChangedHeavyAuto(int value){
-        if (value > 0){
+    public void onValueChangedHeavyAuto(float newValue){
+        if (newValue > 0){
             QuadAuto.GetComponent<Slider>().value = 0;
             LightAuto.GetComponent<Slider>().value = 0;
             HeavyAuto.GetComponent<Slider>().value = 1;
@@ -184,8 +182,8 @@ public class ConfigBehavior : MonoBehaviour {
         }
         updateButton();
     }
-    public void onValueChangedUltraAuto(int value){
-        if (value > 0){
+    public void onValueChangedUltraAuto(float newValue){
+        if (newValue > 0){
             QuadAuto.GetComponent<Slider>().value = 0;
             LightAuto.GetComponent<Slider>().value = 0;
             HeavyAuto.GetComponent<Slider>().value = 0;
@@ -384,11 +382,11 @@ public class ConfigBehavior : MonoBehaviour {
         //AUTO CONFIG
         if (QuadAuto.GetComponent<Slider>().value > 0)
             AutoConfiguration = RobotTypes.DRONE;
-        if (LightAuto.GetComponent<Slider>().value > 0)
+        else if (LightAuto.GetComponent<Slider>().value > 0)
             AutoConfiguration = RobotTypes.LIGHT;
-        if (HeavyAuto.GetComponent<Slider>().value > 0)
+        else if (HeavyAuto.GetComponent<Slider>().value > 0)
             AutoConfiguration = RobotTypes.HEAVY;
-        if (UltraAuto.GetComponent<Slider>().value > 0)
+        else if (UltraAuto.GetComponent<Slider>().value > 0)
             AutoConfiguration = RobotTypes.ULTRA;
         else
             AutoConfiguration = RobotTypes.UNKNOWN;
