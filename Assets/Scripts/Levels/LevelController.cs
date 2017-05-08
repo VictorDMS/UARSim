@@ -60,7 +60,7 @@ public class LevelController : MonoBehaviour {
 
             droneCam.GetComponent<Camera>().targetTexture = null;
             if (LevelsManager.ShowFirstTimeControlImageDrone){
-                Timer.launchActionWithDelay(5, removeDroneControlImage);
+                StartCoroutine(Timer.launchActionWithDelay(5, removeDroneControlImage));
                 LevelsManager.ShowFirstTimeControlImageDrone = false;
             }
         }
@@ -83,7 +83,7 @@ public class LevelController : MonoBehaviour {
             vehicleCam.GetComponent<Camera>().targetTexture = null;
 
             if (LevelsManager.ShowFirstTimeControlImageVehicle){
-                Timer.launchActionWithDelay(5, removeVehicleControlImage);
+                StartCoroutine(Timer.launchActionWithDelay(5, removeVehicleControlImage));
                 LevelsManager.ShowFirstTimeControlImageVehicle = false;
             }
         }else{

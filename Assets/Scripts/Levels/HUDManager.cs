@@ -25,6 +25,8 @@ public class HUDManager : MonoBehaviour {
     }
     
     void showConfigWindow(){
+        LayerFadeInOut.GetComponent<Image>().color = Color.clear;
+        LayerFadeInOut.SetActive(false);
         LevelControllerObj.GetComponent<LevelController>().showConfigWindow();
     }
 
