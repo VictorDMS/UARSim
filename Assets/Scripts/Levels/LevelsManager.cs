@@ -5,9 +5,9 @@ using UnityEngine;
 public class LevelsManager : MonoBehaviour {
     public static LevelsManager instance = null;
 
-    public const short MaxPoints_L1 = 5;
-    public const short MaxPoints_L2 = 5;
-    public const short MaxPoints_L3 = 5;
+    public const short MaxPoints_L1 = 1;
+    public const short MaxPoints_L2 = 2;
+    public const short MaxPoints_L3 = 3;
     public const short MaxPoints_L4 = 5;
 
     public static short Points_L1 = MaxPoints_L1;
