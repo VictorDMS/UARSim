@@ -1,0 +1,169 @@
+fileFormatVersion: 2
+guid: c3f42602e77bb0d4e91b403463164aff
+timeCreated: 1494545318
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Plane_Part_1
+    100002: Plane_Part_10
+    100004: Plane_Part_11
+    100006: Plane_Part_12
+    100008: Plane_Part_13
+    100010: Plane_Part_14
+    100012: Plane_Part_15
+    100014: Plane_Part_16
+    100016: Plane_Part_17
+    100018: Plane_Part_18
+    100020: Plane_Part_2
+    100022: Plane_Part_3
+    100024: Plane_Part_4
+    100026: Plane_Part_5
+    100028: Plane_Part_6
+    100030: Plane_Part_7
+    100032: Plane_Part_8
+    100034: Plane_Part_9
+    100036: //RootNode
+    400000: Plane_Part_1
+    400002: Plane_Part_10
+    400004: Plane_Part_11
+    400006: Plane_Part_12
+    400008: Plane_Part_13
+    400010: Plane_Part_14
+    400012: Plane_Part_15
+    400014: Plane_Part_16
+    400016: Plane_Part_17
+    400018: Plane_Part_18
+    400020: Plane_Part_2
+    400022: Plane_Part_3
+    400024: Plane_Part_4
+    400026: Plane_Part_5
+    400028: Plane_Part_6
+    400030: Plane_Part_7
+    400032: Plane_Part_8
+    400034: Plane_Part_9
+    400036: //RootNode
+    2300000: Plane_Part_1
+    2300002: Plane_Part_10
+    2300004: Plane_Part_11
+    2300006: Plane_Part_12
+    2300008: Plane_Part_13
+    2300010: Plane_Part_14
+    2300012: Plane_Part_15
+    2300014: Plane_Part_16
+    2300016: Plane_Part_17
+    2300018: Plane_Part_18
+    2300020: Plane_Part_2
+    2300022: Plane_Part_3
+    2300024: Plane_Part_4
+    2300026: Plane_Part_5
+    2300028: Plane_Part_6
+    2300030: Plane_Part_7
+    2300032: Plane_Part_8
+    2300034: Plane_Part_9
+    3300000: Plane_Part_1
+    3300002: Plane_Part_10
+    3300004: Plane_Part_11
+    3300006: Plane_Part_12
+    3300008: Plane_Part_13
+    3300010: Plane_Part_14
+    3300012: Plane_Part_15
+    3300014: Plane_Part_16
+    3300016: Plane_Part_17
+    3300018: Plane_Part_18
+    3300020: Plane_Part_2
+    3300022: Plane_Part_3
+    3300024: Plane_Part_4
+    3300026: Plane_Part_5
+    3300028: Plane_Part_6
+    3300030: Plane_Part_7
+    3300032: Plane_Part_8
+    3300034: Plane_Part_9
+    4300000: Plane_Part_1
+    4300002: Plane_Part_10
+    4300004: Plane_Part_11
+    4300006: Plane_Part_12
+    4300008: Plane_Part_13
+    4300010: Plane_Part_14
+    4300012: Plane_Part_15
+    4300014: Plane_Part_16
+    4300016: Plane_Part_17
+    4300018: Plane_Part_18
+    4300020: Plane_Part_2
+    4300022: Plane_Part_3
+    4300024: Plane_Part_4
+    4300026: Plane_Part_5
+    4300028: Plane_Part_6
+    4300030: Plane_Part_7
+    4300032: Plane_Part_8
+    4300034: Plane_Part_9
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -156,6 +156,7 @@
     <Compile Include="Assets\MazeGenerator\Scripts\RecursiveTreeMazeGenerator.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\RollerBall.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\TreeMazeGenerator.cs" />
+    <Compile Include="Assets\MazeGenerator\Scripts\TriangleExplosion.cs" />
     <Compile Include="Assets\Scripts\Controls\ControlsManager.cs" />
     <Compile Include="Assets\Scripts\Fade.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
@@ -184,6 +185,10 @@
   <ItemGroup>
     <None Include="Assets\Examples\License.txt" />
     <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
+    <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
