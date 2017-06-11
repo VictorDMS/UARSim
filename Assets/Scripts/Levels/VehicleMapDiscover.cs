@@ -12,8 +12,8 @@ public class VehicleMapDiscover : MonoBehaviour
         Physics.Raycast(Vehicle.transform.position, Direction, out HitInfo, 200, 9);
 
         float FullDistance = (Vehicle.transform.position - other.transform.position).magnitude;
-        print("Hit Distance: " + HitInfo.distance + "\nFullDistance: " + FullDistance);
-        if ((HitInfo.distance - 0.005) < FullDistance) { 
+        //print("Hit Distance: " + HitInfo.distance + "\nFullDistance: " + FullDistance);
+        if (((HitInfo.distance - 0.005) < FullDistance) && (other.gameObject.layer == LayerMask.NameToLayer("HideLayer"))) { 
             other.gameObject.layer = LayerMask.NameToLayer("MiniMap");
         }
     }

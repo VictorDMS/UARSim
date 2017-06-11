@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 7af0e8c3c8c3205468b535b8fabd03dc
+timeCreated: 1495364422
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DK Bad Medicine
+  fontNames:
+  - DK Bad Medicine
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

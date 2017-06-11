@@ -1,5 +1,4 @@
-﻿    using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class IntroGame : MonoBehaviour {
@@ -25,7 +24,7 @@ public class IntroGame : MonoBehaviour {
 	}
 
 	public void onClickControlsButton(){
-        LoadingBehavior.ActionToPerform = LoadingBehavior.Action.Controls;
+        LoadingBehavior.ActionToPerform = LoadingBehavior.Action.AboutUs;
         LoadingBehavior.Timer = 1;
         StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, GameManager.loadLoading));
     }

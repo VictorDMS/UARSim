@@ -8,13 +8,12 @@ using UnityStandardAssets.Characters.FirstPerson;
 [RequireComponent(typeof(AudioSource))]
 public class VehicleFPSController : MonoBehaviour
 {
-    private float m_WalkSpeed;
     [SerializeField]private MouseLook m_MouseLook;
     [SerializeField]private float m_StepInterval;
     [SerializeField]private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
-    [SerializeField]private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
-    [SerializeField]private AudioClip m_LandSound;           // the sound played when character touches back on ground.
     [SerializeField]public VehicleAutomaticMovement AutoMov;
+    public enum Speed { LIGHT_SPEED = 4, HEAVY_SPEED = 2, ULTRA_SPEED = 10 } ;
+    public Speed m_WalkSpeed;
 
     private Camera m_Camera;
     private Vector2 m_Input;
@@ -43,16 +42,9 @@ public class VehicleFPSController : MonoBehaviour
     // Update is called once per frame
     private void Update(){
         RotateView();
-        m_MoveDir.y = 0f;
+        //m_MoveDir.y = 0f;
     }
-
-    private void PlayLandingSound()
-    {
-        m_AudioSource.clip = m_LandSound;
-        m_AudioSource.Play();
-        m_NextStep = m_StepCycle + .5f;
-    }
-
+    
     private void FixedUpdate()
     {
         GetInput();
@@ -65,12 +57,17 @@ public class VehicleFPSController : MonoBehaviour
                             m_CharacterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
         desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
-        m_MoveDir.x = desiredMove.x * m_WalkSpeed;
-        m_MoveDir.z = desiredMove.z * m_WalkSpeed;
-        m_MoveDir.y = 0;
+        m_MoveDir.x = desiredMove.x * (float)m_WalkSpeed;
+        m_MoveDir.z = desiredMove.z * (float)m_WalkSpeed;
+        if(gameObject.transform.position.y > 1.1f)
+            m_MoveDir.y = -1 * (float)m_WalkSpeed;
+        else if (gameObject.transform.position.y < 1.1f)
+            m_MoveDir.y = 1 * (float)m_WalkSpeed;
+        else 
+            m_MoveDir.y = 0;
 
         m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
-        ProgressStepCycle(m_WalkSpeed);
+        ProgressStepCycle((float)m_WalkSpeed);
         m_MouseLook.UpdateCursorLock();
     }
 
@@ -94,18 +91,18 @@ public class VehicleFPSController : MonoBehaviour
 
     private void PlayFootStepAudio()
     {
-        if (!m_CharacterController.isGrounded)
-        {
-            return;
-        }
-        // pick & play a random footstep sound from the array,
-        // excluding sound at index 0
-        int n = Random.Range(1, m_FootstepSounds.Length);
-        m_AudioSource.clip = m_FootstepSounds[n];
-        m_AudioSource.PlayOneShot(m_AudioSource.clip);
-        // move picked sound to index 0 so it's not picked next time
-        m_FootstepSounds[n] = m_FootstepSounds[0];
-        m_FootstepSounds[0] = m_AudioSource.clip;
+        //if (!m_CharacterController.isGrounded)
+        //{
+        //    return;
+        //}
+        //// pick & play a random footstep sound from the array,
+        //// excluding sound at index 0
+        //int n = Random.Range(1, m_FootstepSounds.Length);
+        //m_AudioSource.clip = m_FootstepSounds[n];
+        //m_AudioSource.PlayOneShot(m_AudioSource.clip);
+        //// move picked sound to index 0 so it's not picked next time
+        //m_FootstepSounds[n] = m_FootstepSounds[0];
+        //m_FootstepSounds[0] = m_AudioSource.clip;
     }
 
     private void GetInput()
@@ -155,16 +152,20 @@ public class VehicleFPSController : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Rigidbody body = hit.collider.attachedRigidbody;
-        //dont move the rigidbody if the character is on top of it
-        if (m_CollisionFlags == CollisionFlags.Below){
-            return;
-        }
+        if((hit.collider.tag != "DestroyedWall") && (hit.collider.tag != "MapMazeObject")){
+            Rigidbody body = hit.collider.attachedRigidbody;
+            //dont move the rigidbody if the character is on top of it
+            if (m_CollisionFlags == CollisionFlags.Below){
+                return;
+            }
 
-        if (body == null || body.isKinematic){
-            return;
+            if (body == null || body.isKinematic){
+                return;
+            }
+            body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
+        }else{
+            Physics.IgnoreCollision(hit.collider, m_CharacterController.GetComponent<Collider>());
         }
-        body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
     }
 
     void getHorizontalAndVertical(ref float horizontal, ref float vertical)
@@ -197,19 +198,19 @@ public class VehicleFPSController : MonoBehaviour
 
     public void resetPosition(){
         transform.position = new Vector3(0.0f, 1.1f, 0.0f);
-        transform.localEulerAngles = Vector3.right;
+        transform.localEulerAngles = Vector3.forward;
+        m_AutoWalkingState = AutoWalkingState.Disabled;
     }
-
     public void loadLevel1Params(){ //Light Robot
-        m_WalkSpeed = 4.0f;
+        m_WalkSpeed = Speed.LIGHT_SPEED;
     }
     public void loadLevel2Params(){ //Ultra Light Robot
-        m_WalkSpeed = 10.0f;
+        m_WalkSpeed = Speed.ULTRA_SPEED;
     }
     public void loadLevel3Params(){ //Heavy Robot
-        m_WalkSpeed = 1.5f;
+        m_WalkSpeed = Speed.HEAVY_SPEED;
     }
-    public void loadLevel4Params(){ //Do not fucking know :)
-        m_WalkSpeed = 4.0f;
+    public void loadLevel4Params(){ //Light Robot
+        m_WalkSpeed = Speed.LIGHT_SPEED;
     }
 }

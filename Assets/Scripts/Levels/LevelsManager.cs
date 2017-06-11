@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelsManager : MonoBehaviour {
-    public static LevelsManager instance = null;
 
     public const short MaxPoints_L1 = 1;
     public const short MaxPoints_L2 = 2;
@@ -26,17 +25,9 @@ public class LevelsManager : MonoBehaviour {
     public static bool ShowFirstTimeControlImageVehicle = true;
     public static bool ShowFirstTimeControlImageDrone = true;
 
-    public enum Levels { Start, L1, L2, L3, L4, End };
+    public enum Levels { Start = -1, L1 = 1, L2 = 2, L3 = 3, L4 = 4, End = 0 };
     private static Levels CurrentLevel = Levels.Start;
-
-    void Awake () {
-        if (instance == null)
-            instance = this;
-        else if (instance != this)
-            Destroy(gameObject);
-        DontDestroyOnLoad(gameObject);
-    }
-    
+        
     public static bool foundGoal(){
         bool FinishedLevel = false;
         switch (CurrentLevel){
@@ -71,10 +62,8 @@ public class LevelsManager : MonoBehaviour {
         }
         return FinishedLevel;
     }
-
-    public static void loadLevel(){
-        switch (CurrentLevel)
-        {
+    public static void loadNewLevel(){
+        switch (CurrentLevel){
             case Levels.Start:
                 loadLevel1();
                 break;
@@ -87,35 +76,54 @@ public class LevelsManager : MonoBehaviour {
             case Levels.L3:
                 loadLevel4();
                 break;
-            case Levels.L4:
+            case Levels.L4://Here we load the final score. There is no new level.
                 CurrentLevel = Levels.End;
                 LoadScore = true;
                 break;
         }
     }
-
+    public static void endLevel(){
+        LoadScore = true;
+    }
     public static Levels getCurrentLevel(){
         return CurrentLevel;
     }
-
     private static void loadLevel1(){
+        CurrentLevel = Levels.L1;
         LoadLevel = true;
         LoadConfig = true;
-        CurrentLevel = Levels.L1;
+        FirstTimeNewLevel = true;
     }
     private static void loadLevel2(){
         CurrentLevel = Levels.L2;
         LoadLevel = true;
-        LoadScore = true;
+        LoadConfig = true;
+        FirstTimeNewLevel = true;
     }
     private static void loadLevel3(){
         CurrentLevel = Levels.L3;
         LoadLevel = true;
-        LoadScore = true;
+        LoadConfig = true;
+        FirstTimeNewLevel = true;
     }
     private static void loadLevel4(){
         CurrentLevel = Levels.L4;
         LoadLevel = true;
-        LoadScore = true;
+        LoadConfig = true;
+        FirstTimeNewLevel = true;
+    }
+
+    public static void GameOver(){
+        LoadConfig = false;
+        LoadScore = false;
+        LoadLevel = false;
+        ExitConfigMenu = false;
+        ExitScoreMenu = false;
+        FirstTimeNewLevel = true;
+        ShowFirstTimeControlImageVehicle = true;
+        ShowFirstTimeControlImageDrone = true;
+        CurrentLevel = Levels.Start;
+        GameManager.PlayerName = "";
+        GameManager.loadIntro();
     }
 }

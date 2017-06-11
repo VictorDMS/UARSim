@@ -23,7 +23,7 @@ public class LevelController : MonoBehaviour {
     void Start () {        
         VehicleRenderTexture = vehicleCam.GetComponent<Camera>().targetTexture;
         DroneRenderTexture = droneCam.GetComponent<Camera>().targetTexture;
-        LevelsManager.loadLevel();//Here is loaded Level 1.
+        LevelsManager.loadNewLevel();//Here is loaded Level 1.
         ScoreWindow.SetActive(false);
     }
     void Update(){
@@ -53,10 +53,18 @@ public class LevelController : MonoBehaviour {
     private void activateDrone(bool enable){
         if (enable){
             MoveDrone.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            HUDCanvasWindow.GetComponent<HUDManager>().loadActualRobotName("Quadcopter");
+
+            if (drone.GetComponent<DroneFPSController>().m_WalkSpeed == DroneFPSController.Speed.NORMAL_SPEED){
+                HUDCanvasWindow.GetComponent<HUDManager>().loadActualRobotName("Normal Drone");
+            }else if (drone.GetComponent<DroneFPSController>().m_WalkSpeed == DroneFPSController.Speed.SLOW_SPEED){
+                HUDCanvasWindow.GetComponent<HUDManager>().loadActualRobotName("Slow Drone");
+            }else if (drone.GetComponent<DroneFPSController>().m_WalkSpeed == DroneFPSController.Speed.FAST_SPEED){
+                HUDCanvasWindow.GetComponent<HUDManager>().loadActualRobotName("Fast Drone");
+            }
+            
             DroneFPSController.m_AutoWalkingState = DroneFPSController.AutoWalkingState.Disabled;
             VehicleFPSController.m_AutoWalkingState = VehicleFPSController.AutoWalkingState.Starting;
-            ConfigBehavior.AutoConfiguration = ConfigBehavior.RobotTypes.DRONE;
+            ConfigBehavior.AutoConfiguration = ConfigBehavior.RobotTypes.LIGHT;
 
             droneCam.GetComponent<Camera>().targetTexture = null;
             if (LevelsManager.ShowFirstTimeControlImageDrone){
@@ -75,11 +83,17 @@ public class LevelController : MonoBehaviour {
         if (enable){
             ViewVehicle.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             MoveVehicle.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-            HUDCanvasWindow.GetComponent<HUDManager>().loadActualRobotName("Light Vehicle");
+            if (vehicle.GetComponent<VehicleFPSController>().m_WalkSpeed == VehicleFPSController.Speed.LIGHT_SPEED) {
+                HUDCanvasWindow.GetComponent<HUDManager>().loadActualRobotName("Light Vehicle");
+            }else if (vehicle.GetComponent<VehicleFPSController>().m_WalkSpeed == VehicleFPSController.Speed.HEAVY_SPEED) {
+                HUDCanvasWindow.GetComponent<HUDManager>().loadActualRobotName("Heavy Vehicle");
+            } else if (vehicle.GetComponent<VehicleFPSController>().m_WalkSpeed == VehicleFPSController.Speed.ULTRA_SPEED) {
+                HUDCanvasWindow.GetComponent<HUDManager>().loadActualRobotName("Ultra Light Vehicle");
+            }
             VehicleFPSController.m_AutoWalkingState = VehicleFPSController.AutoWalkingState.Disabled;
             DroneFPSController.m_AutoWalkingState = DroneFPSController.AutoWalkingState.Starting;
-            ConfigBehavior.AutoConfiguration = ConfigBehavior.RobotTypes.LIGHT;
-            
+            ConfigBehavior.AutoConfiguration = ConfigBehavior.RobotTypes.DRONE;
+
             vehicleCam.GetComponent<Camera>().targetTexture = null;
 
             if (LevelsManager.ShowFirstTimeControlImageVehicle){
@@ -94,9 +108,23 @@ public class LevelController : MonoBehaviour {
             vehicleCam.GetComponent<Camera>().Render();
         }
     }
-    public void disableRobots(){
-        activateDrone(false);
-        activateVehicle(false);
+    public void disableRobots(bool Both){
+        if (Both){
+            activateDrone(false);
+            activateVehicle(false);
+        }
+        else{
+            switch (ConfigBehavior.AutoConfiguration){
+                case ConfigBehavior.RobotTypes.DRONE:
+                    activateVehicle(false);
+                    break;
+                case ConfigBehavior.RobotTypes.LIGHT:
+                case ConfigBehavior.RobotTypes.HEAVY:
+                case ConfigBehavior.RobotTypes.ULTRA:
+                    activateDrone(false);
+                    break;
+            }
+        }        
     }
     public void enableDrone(){
         activateVehicle(false);
@@ -108,7 +136,7 @@ public class LevelController : MonoBehaviour {
     }
 
     public void showConfigWindow(){
-        disableRobots();
+        disableRobots(true);
         ScoreWindow.SetActive(false);
         ConfigWindow.SetActive(true);
         ConfigWindow.GetComponent<ConfigBehavior>().launchConfigLayer();
@@ -128,42 +156,39 @@ public class LevelController : MonoBehaviour {
     }
 
     public void showScoreWindow(){
-        disableRobots();
+        disableRobots(true);
         ConfigWindow.SetActive(false);
         ScoreWindow.SetActive(true);
         ScoreWindow.GetComponent<ScoreBehavior>().launchScoreLayer();
         HUDCanvasWindow.SetActive(false);
     }
     public void backFromScore(){
-        LevelsManager.LoadConfig = true;
+        if ((LevelsManager.getCurrentLevel() == LevelsManager.Levels.End))
+            LevelsManager.GameOver(); //End of the game
+        else
+            LevelsManager.loadNewLevel();
     }
     public void showNewLevelWindow(){
+        vehicle.GetComponent<VehicleFPSController>().resetPosition();
+        drone.GetComponent<DroneFPSController>().resetPosition();
         switch (LevelsManager.getCurrentLevel()){
             case LevelsManager.Levels.L1:
                 MazeGenerator.GetComponent<MazeSpawner>().loadMaze(LevelsManager.MaxPoints_L1);
-                vehicle.GetComponent<VehicleFPSController>().resetPosition();
-                drone.GetComponent<DroneFPSController>().resetPosition();
                 vehicle.GetComponent<VehicleFPSController>().loadLevel1Params();
                 drone.GetComponent<DroneFPSController>().loadLevel1Params();
                 break;
             case LevelsManager.Levels.L2:
                 MazeGenerator.GetComponent<MazeSpawner>().loadMaze(LevelsManager.MaxPoints_L2);
-                vehicle.GetComponent<VehicleFPSController>().resetPosition();
-                drone.GetComponent<DroneFPSController>().resetPosition();
                 vehicle.GetComponent<VehicleFPSController>().loadLevel2Params();
                 drone.GetComponent<DroneFPSController>().loadLevel2Params();
                 break;                                             
             case LevelsManager.Levels.L3:                          
                 MazeGenerator.GetComponent<MazeSpawner>().loadMaze(LevelsManager.MaxPoints_L3);
-                vehicle.GetComponent<VehicleFPSController>().resetPosition();
-                drone.GetComponent<DroneFPSController>().resetPosition();
                 vehicle.GetComponent<VehicleFPSController>().loadLevel3Params();
                 drone.GetComponent<DroneFPSController>().loadLevel3Params();
                 break;                                             
             case LevelsManager.Levels.L4:                          
                 MazeGenerator.GetComponent<MazeSpawner>().loadMaze(LevelsManager.MaxPoints_L4);
-                vehicle.GetComponent<VehicleFPSController>().resetPosition();
-                drone.GetComponent<DroneFPSController>().resetPosition();
                 vehicle.GetComponent<VehicleFPSController>().loadLevel4Params();
                 drone.GetComponent<DroneFPSController>().loadLevel4Params();
                 break;
@@ -174,15 +199,13 @@ public class LevelController : MonoBehaviour {
         }
     }
     public void loadActiveRobot(){
-        //disableRobots();
-        switch (ConfigBehavior.AutoConfiguration)
-        {
+        switch (ConfigBehavior.AutoConfiguration){
             case ConfigBehavior.RobotTypes.DRONE:
-                enableDrone(); break;
+                enableVehicle(); break;
             case ConfigBehavior.RobotTypes.LIGHT:
             case ConfigBehavior.RobotTypes.HEAVY:
             case ConfigBehavior.RobotTypes.ULTRA:
-                enableVehicle(); break;
+                enableDrone(); break;
             case ConfigBehavior.RobotTypes.UNKNOWN:
             default:
                 break;
@@ -191,16 +214,13 @@ public class LevelController : MonoBehaviour {
     public void changeActiveRobot(){
         switch (ConfigBehavior.AutoConfiguration){
             case ConfigBehavior.RobotTypes.DRONE:
-                enableVehicle();
-                break;
+                enableDrone(); break;
             case ConfigBehavior.RobotTypes.LIGHT:
             case ConfigBehavior.RobotTypes.HEAVY:
             case ConfigBehavior.RobotTypes.ULTRA:
-                enableDrone();
-                break;
+                enableVehicle(); break;
+            case ConfigBehavior.RobotTypes.UNKNOWN:
             default:
-                Debug.Log("Unknown Robot state.");
-                ConfigBehavior.AutoConfiguration = ConfigBehavior.RobotTypes.UNKNOWN;
                 break;
         }
     }

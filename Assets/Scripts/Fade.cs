@@ -2,43 +2,40 @@
 using UnityEngine.UI;
 using System.Collections;
 using System;
-
+ 
 public class Fade{
-    static public IEnumerator fadeInCoroutine(GameObject LayerFadeInOut, float FadeInOutSpeed, Action CallBack)
+    static public IEnumerator fadeInCoroutine(GameObject LayerFadeInOut, float FadeInOutDuration, Action CallBack)
     {
+        float t = 0.0f;
         LayerFadeInOut.SetActive(true);
         Image ImageFadeInOut = LayerFadeInOut.GetComponent<Image>();
         for (;;)
         {
-            ImageFadeInOut.color = Color.Lerp(ImageFadeInOut.color, Color.black, (FadeInOutSpeed / 2) * Time.deltaTime);
-            if (ImageFadeInOut.color.a >= 0.95f)
-            {
+            ImageFadeInOut.color = Color.Lerp(ImageFadeInOut.color, Color.black, t);
+            if (t < 0.95){
+                t += Time.deltaTime / FadeInOutDuration;
+                yield return null;
+            }else{
                 ImageFadeInOut.color = Color.black;
                 CallBack();
                 break;
             }
-            else
-            {
-                yield return null;
-            }
         }
     }
 
-    static public IEnumerator fadeOutCoroutine(GameObject LayerFadeInOut, float FadeInOutSpeed)
+    static public IEnumerator fadeOutCoroutine(GameObject LayerFadeInOut, float FadeInOutDuration)
     {
+        float t = 0.0f;
         LayerFadeInOut.SetActive(true);
         Image ImageFadeInOut = LayerFadeInOut.GetComponent<Image>();
-        for (;;)
-        {
-            ImageFadeInOut.color = Color.Lerp(ImageFadeInOut.color, Color.clear, (FadeInOutSpeed / 2) * Time.deltaTime);
-            if (ImageFadeInOut.color.a <= 0.05f)
-            {
+        for (;;){
+            ImageFadeInOut.color = Color.Lerp(ImageFadeInOut.color, Color.clear, t);
+            if (ImageFadeInOut.color.a > 0.05f){
+                t += Time.deltaTime / FadeInOutDuration;
+                yield return null;
+            }else{
                 ImageFadeInOut.color = Color.clear;
                 break;
-            }
-            else
-            {
-                yield return null;
             }
         }
         LayerFadeInOut.SetActive(false);

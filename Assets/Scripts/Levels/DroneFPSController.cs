@@ -8,13 +8,14 @@ using UnityStandardAssets.Characters.FirstPerson;
 [RequireComponent(typeof(AudioSource))]
 public class DroneFPSController : MonoBehaviour
 {
-    private float m_WalkSpeed;
     [SerializeField]private float m_StickToGroundForce;
     [SerializeField]private float m_GravityMultiplier;
     [SerializeField]private MouseLook m_MouseLook;
     [SerializeField]private float m_StepInterval;
     [SerializeField]private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
     [SerializeField]private DroneAutomaticMovement AutoMov;
+    public enum Speed { NORMAL_SPEED = 5, SLOW_SPEED = 3, FAST_SPEED = 10 };
+    public Speed m_WalkSpeed;
 
     private Camera m_Camera;
     private Vector2 m_Input;
@@ -64,8 +65,8 @@ public class DroneFPSController : MonoBehaviour
                             m_CharacterController.height / 2f, Physics.AllLayers, QueryTriggerInteraction.Ignore);
         desiredMove = Vector3.ProjectOnPlane(desiredMove, hitInfo.normal).normalized;
 
-        m_MoveDir.x = desiredMove.x * m_WalkSpeed;
-        m_MoveDir.z = desiredMove.z * m_WalkSpeed;
+        m_MoveDir.x = desiredMove.x * (float)m_WalkSpeed;
+        m_MoveDir.z = desiredMove.z * (float)m_WalkSpeed;
 
         if (m_CharacterController.isGrounded){
             m_MoveDir.y = -m_StickToGroundForce;
@@ -75,7 +76,7 @@ public class DroneFPSController : MonoBehaviour
         }
         m_CollisionFlags = m_CharacterController.Move(m_MoveDir * Time.fixedDeltaTime);
 
-        ProgressStepCycle(m_WalkSpeed);
+        ProgressStepCycle((float)m_WalkSpeed);
         m_MouseLook.UpdateCursorLock();
     }
     
@@ -186,17 +187,18 @@ public class DroneFPSController : MonoBehaviour
     }
     public void resetPosition(){
         transform.position = new Vector3(0.0f, 10.0f, 0.0f);
+        m_AutoWalkingState = AutoWalkingState.Disabled;
     }
-    public void loadLevel1Params(){ //Light Robot
-        m_WalkSpeed = 4.0f;
+    public void loadLevel1Params(){ //Normal Quadcopter
+        m_WalkSpeed = Speed.NORMAL_SPEED;
     }
-    public void loadLevel2Params(){ //Ultra Light Robot
-        m_WalkSpeed = 3.0f;
+    public void loadLevel2Params(){ //Slow Quadcopter
+        m_WalkSpeed = Speed.SLOW_SPEED;
     }
-    public void loadLevel3Params(){ //Heavy Robot
-        m_WalkSpeed = 4.0f;
+    public void loadLevel3Params(){ //Normal Quadcopter
+        m_WalkSpeed = Speed.NORMAL_SPEED;
     }
-    public void loadLevel4Params(){ //Do not fucking know :)
-        m_WalkSpeed = 4.0f;
+    public void loadLevel4Params(){ //Fast Quadcopter
+        m_WalkSpeed = Speed.FAST_SPEED;
     }
 }

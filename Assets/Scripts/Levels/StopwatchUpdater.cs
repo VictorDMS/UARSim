@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class StopwatchUpdater : MonoBehaviour {
@@ -7,6 +8,9 @@ public class StopwatchUpdater : MonoBehaviour {
     private int FPSIterator = 0;
     private bool ClockStarted = false;
     private float TimeElapsedInitLevel = 0.0f;
+
+    private const float PUNISHMENT_TIME = 5.0f;
+    private const float REDTIME_DURATION = 5.0f;
 
     [SerializeField] private Text timerText;
     [SerializeField] private int FPSFrecuency = 10;
@@ -33,9 +37,22 @@ public class StopwatchUpdater : MonoBehaviour {
                 string sSeconds = nSeconds >= 10.0f ? nSeconds.ToString("f2") : "0" + nSeconds.ToString("f2");
                 timerText.text = sHours + ":" + sMinutes + ":" + sSeconds;
                 FPSIterator = 0;
-            }else{
+                TimeElapsedInitLevel = t;
+            }
+            else{
                 FPSIterator++;
             }
         }
 	}
+
+    public void punishForBreakWall(){//How to add time? reducing startTime
+        startTime -= PUNISHMENT_TIME;
+        StartCoroutine(turnOnAndOffRedColour());
+    }
+
+    private IEnumerator turnOnAndOffRedColour(){
+        timerText.color = Color.red;
+        yield return new WaitForSeconds(REDTIME_DURATION);
+        timerText.color = Color.black;
+    }
 }

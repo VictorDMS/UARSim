@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour{
     public static GameManager instance = null;
+    public static string PlayerName = "", EmailPlayer = "";
 
     void Awake(){
         if (instance == null){
@@ -19,13 +20,16 @@ public class GameManager : MonoBehaviour{
     public static void loadIntro(){
         SceneManager.LoadScene("Intro");
     }
-    public static void loadControls(){
-        SceneManager.LoadScene("Controls");
+    public static void loadAboutUs(){
+        SceneManager.LoadScene("AboutUs");
     }
     public static void loadTutorials(){
         SceneManager.LoadScene("Tutorials");
     }
     public static void loadLevel(){
         SceneManager.LoadScene("LevelMaze");
+    }
+    public static void loadNameSelector(){
+        SceneManager.LoadScene("NameSelector");
     }
 }

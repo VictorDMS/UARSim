@@ -16,7 +16,7 @@ public class HUDManager : MonoBehaviour {
 	}
 
     public void onClickChangeRobot() {//Change state
-        LevelControllerObj.GetComponent<LevelController>().disableRobots();
+        LevelControllerObj.GetComponent<LevelController>().disableRobots(true);
         StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, changeRobotControl));
     }
     
@@ -40,7 +40,7 @@ public class HUDManager : MonoBehaviour {
 		miniMap.SetActive(false);
 		fullMap.SetActive(true);
 		cancelFullMapButton.SetActive(true);
-        LevelControllerObj.GetComponent<LevelController>().disableRobots();
+        LevelControllerObj.GetComponent<LevelController>().disableRobots(false);
 	}
 
 	public void onClickCancelFullMap() {//We display the map with full size
