@@ -9,7 +9,8 @@ public class StopwatchUpdater : MonoBehaviour {
     private bool ClockStarted = false;
     private float TimeElapsedInitLevel = 0.0f;
 
-    private const float PUNISHMENT_TIME = 5.0f;
+    private const float PUNISHMENT_TIME_L3 = 5.0f;
+    private const float PUNISHMENT_TIME_L4 = 10.0f;
     private const float REDTIME_DURATION = 5.0f;
 
     [SerializeField] private Text timerText;
@@ -46,7 +47,15 @@ public class StopwatchUpdater : MonoBehaviour {
 	}
 
     public void punishForBreakWall(){//How to add time? reducing startTime
-        startTime -= PUNISHMENT_TIME;
+        float PunishmentValue = 0.0f;
+        if(LevelsManager.getCurrentLevel() == LevelsManager.Levels.L3){
+            PunishmentValue = PUNISHMENT_TIME_L3;
+            startTime -= PunishmentValue;
+        }else if(LevelsManager.getCurrentLevel() == LevelsManager.Levels.L4){
+            PunishmentValue = PUNISHMENT_TIME_L4;
+            startTime -= PunishmentValue;
+        }
+        EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.WallDestroyed, "Punishment: " + PunishmentValue.ToString());
         StartCoroutine(turnOnAndOffRedColour());
     }
 

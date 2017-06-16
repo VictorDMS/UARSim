@@ -17,7 +17,7 @@ public class MazeSpawner : MonoBehaviour {
 	public bool FullRandom = false;
 	public int RandomSeed = 12345;
 	public GameObject Floor1 = null, Floor2 = null, Floor3 = null, Floor4 = null, FloorForMap = null;
-	public GameObject Wall1 = null, Wall2 = null, Wall3 = null, Wall4 = null, WallForMap = null;
+	public GameObject Wall1 = null, Wall2 = null, Wall3 = null, Wall4 = null, WallForMap = null, WallForLog = null;
 	public GameObject Pillar1 = null, Pillar2 = null, Pillar3 = null, Pillar4 = null;
 	public const int Rows = 10; //5;
 	public const int Columns = 10; //5;
@@ -90,6 +90,8 @@ public class MazeSpawner : MonoBehaviour {
                     tmp.transform.parent = transform;
                     tmp = Instantiate(WallForMap, new Vector3(x + CellWidth / 2, 0, z) + WallForMap.transform.position, Quaternion.Euler(0, 90, 0)) as GameObject;// right
                     tmp.transform.parent = transform;
+                    tmp = Instantiate(WallForLog, new Vector3(x + CellWidth / 2, 0, z) + WallForLog.transform.position, Quaternion.Euler(0, 90, 0)) as GameObject;// right
+                    tmp.transform.parent = transform;
                     //NEW CODE VDMS
                     AutomaticMovement.MazeMatrix[(row * 2) + 1][(column * 2) + 1 + 1] = -1;
                     AutomaticMovement.MazeMatrix3DPoints[(row * 2) + 1][(column * 2) + 1 + 1] = new Vector3(-1, -1, -1);
@@ -106,6 +108,8 @@ public class MazeSpawner : MonoBehaviour {
                     tmp = Instantiate(getWall(), new Vector3(x, 0, z + CellHeight / 2) + getWall().transform.position, Quaternion.Euler(0, 0, 0)) as GameObject;// front
                     tmp.transform.parent = transform;
                     tmp = Instantiate(WallForMap, new Vector3(x, 0, z + CellHeight / 2) + WallForMap.transform.position, Quaternion.Euler(0, 0, 0)) as GameObject;// front
+                    tmp.transform.parent = transform;
+                    tmp = Instantiate(WallForLog, new Vector3(x, 0, z + CellHeight / 2) + WallForLog.transform.position, Quaternion.Euler(0, 0, 0)) as GameObject;// front
                     tmp.transform.parent = transform;
                     /*NEW CODE VDMS*/
                     AutomaticMovement.MazeMatrix[(row * 2) + 1 + 1][(column * 2) + 1] = -1;
@@ -125,6 +129,8 @@ public class MazeSpawner : MonoBehaviour {
                     tmp.transform.parent = transform;
                     tmp = Instantiate(WallForMap, new Vector3(x - CellWidth / 2, 0, z) + WallForMap.transform.position, Quaternion.Euler(0, 270, 0)) as GameObject;// left
                     tmp.transform.parent = transform;
+                    tmp = Instantiate(WallForLog, new Vector3(x - CellWidth / 2, 0, z) + WallForLog.transform.position, Quaternion.Euler(0, 270, 0)) as GameObject;// left
+                    tmp.transform.parent = transform;
                     /*NEW CODE VDMS*/
                     AutomaticMovement.MazeMatrix[(row * 2) + 1][(column * 2)] = -1;
                     AutomaticMovement.MazeMatrix3DPoints[(row * 2) + 1][(column * 2)] = new Vector3(-1, -1, -1);
@@ -141,6 +147,8 @@ public class MazeSpawner : MonoBehaviour {
                     tmp = Instantiate(getWall(), new Vector3(x, 0, z - CellHeight / 2) + getWall().transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;// back
                     tmp.transform.parent = transform;
                     tmp = Instantiate(WallForMap, new Vector3(x, 0, z - CellHeight / 2) + WallForMap.transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;// back
+                    tmp.transform.parent = transform;
+                    tmp = Instantiate(WallForLog, new Vector3(x, 0, z - CellHeight / 2) + WallForLog.transform.position, Quaternion.Euler(0, 180, 0)) as GameObject;// back
                     tmp.transform.parent = transform;
                     AutomaticMovement.MazeMatrix[(row * 2)][(column * 2) + 1] = -1;
                     AutomaticMovement.MazeMatrix3DPoints[(row * 2)][(column * 2) + 1] = new Vector3(-1, -1, -1);

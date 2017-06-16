@@ -157,9 +157,12 @@
     <Compile Include="Assets\MazeGenerator\Scripts\RollerBall.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\TreeMazeGenerator.cs" />
     <Compile Include="Assets\MazeGenerator\Scripts\TriangleExplosion.cs" />
+    <Compile Include="Assets\Scripts\AWS\DBModel.cs" />
+    <Compile Include="Assets\Scripts\AWS\EventsDBEntity.cs" />
+    <Compile Include="Assets\Scripts\AWS\EventsDBModel.cs" />
     <Compile Include="Assets\Scripts\AWS\ScoreDBEntity.cs" />
     <Compile Include="Assets\Scripts\AWS\ScoreDBModel.cs" />
-    <Compile Include="Assets\Scripts\Controls\ControlsManager.cs" />
+    <Compile Include="Assets\Scripts\Controls\AboutUsManager.cs" />
     <Compile Include="Assets\Scripts\Fade.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\IntroScene\IntroGame.cs" />

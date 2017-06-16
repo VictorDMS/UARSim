@@ -148,6 +148,7 @@ public class LevelController : MonoBehaviour {
         if (LevelsManager.FirstTimeNewLevel == true){
             LevelsManager.FirstTimeNewLevel = false;
             Stopwatch.GetComponent<StopwatchUpdater>().startStopwatch();
+            EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.StartLevel, "");
         }
 
         loadActiveRobot();
@@ -212,17 +213,22 @@ public class LevelController : MonoBehaviour {
         }
     }
     public void changeActiveRobot(){
+        string Description = "";
         switch (ConfigBehavior.AutoConfiguration){
             case ConfigBehavior.RobotTypes.DRONE:
-                enableDrone(); break;
+                Description = "From Vehicle To Drone";
+                enableDrone();
+                break;
             case ConfigBehavior.RobotTypes.LIGHT:
             case ConfigBehavior.RobotTypes.HEAVY:
             case ConfigBehavior.RobotTypes.ULTRA:
+                Description = "From Drone To Vehicle";
                 enableVehicle(); break;
             case ConfigBehavior.RobotTypes.UNKNOWN:
             default:
                 break;
         }
+        EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.ChangeRobots, Description);
     }
 
     public void removeDroneControlImage(){

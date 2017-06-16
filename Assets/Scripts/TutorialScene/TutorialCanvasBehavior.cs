@@ -8,6 +8,7 @@ public class TutorialCanvasBehavior : MonoBehaviour
     [SerializeField]private int SpeedTransition = 1;
     [SerializeField]private GameObject LayerFadeInOut;
     [SerializeField]private GameObject TutorialCanvas, ControlsCanvas, RobotConfigCanvas, TipsCanvas;
+    [SerializeField]private GameObject LastSkeleton;
     public float FadeInOutSpeed = 0;
 
     // Use this for initialization
@@ -16,21 +17,27 @@ public class TutorialCanvasBehavior : MonoBehaviour
         ControlsCanvas.transform.localPosition = new Vector3(1920.0f, 0.0f, 0.0f);
         RobotConfigCanvas.transform.localPosition = new Vector3(1920.0f, 0.0f, 0.0f);
         TipsCanvas.transform.localPosition = new Vector3(1920.0f, 0.0f, 0.0f);
+        LayerFadeInOut.GetComponent<Image>().color = Color.clear;
     }
 	
     public void onClickNextFromTutorial(){
+        EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.MenuGame, "From Tutorials To Controls");
         StartCoroutine(moveTutorialAndControls());
     }
     public void onClickNextFromControls(){
+        EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.MenuGame, "From Controls To RobotConfig");
         StartCoroutine(moveControlsAndRobotConfig());
     }
     public void onClickNextFromRobotConfig(){
+        EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.MenuGame, "From RobotConfig To Tips");
         StartCoroutine(moveRobotConfigAndTips());
     }
     public void onClickFinishFromTips(){
+        LastSkeleton.SetActive(false);
+        EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.MenuGame, "From Tips To Intro");
         LoadingBehavior.ActionToPerform = LoadingBehavior.Action.Intro;
         LoadingBehavior.Timer = 1;
-        StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, loadLevel));
+        StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, GameManager.loadLoading));
     }
 
     public IEnumerator moveTutorialAndControls(){
@@ -94,9 +101,5 @@ public class TutorialCanvasBehavior : MonoBehaviour
             }
             yield return null;
         }
-    }
-
-    void loadLevel(){
-        GameManager.loadLoading();
     }
 }

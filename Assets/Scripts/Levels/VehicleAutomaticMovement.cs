@@ -5,18 +5,24 @@ public class VehicleAutomaticMovement : AutomaticMovement
 {
     public enum VehicleAutomaticMovementState { LEFT_ROTATING, RIGHT_ROTATING, STRAIGHT };
 
-    public const float VEHICLE_ROTATION_SPEED = 0.5f;
-    public const float VEHICLE_STRAIGHT_SPEED = 0.01f;
+    public const float VEHICLE_ROTATION_SPEED = 4f;//0.5f;
+    public const float VEHICLE_STRAIGHT_SPEED = 0.005f;//0.01f;
     private const float DISTANCE_ACHIEVED_WAYPOINT = 1.3f;
-    private const float ANGLE_ACHIEVED_WAYPOINT = 4.0f;
+    private const float ANGLE_ACHIEVED_WAYPOINT = 20.0f;//4.0f;
     
     public override void buildWaypointsPathForCurrentConfiguration(Transform CurrentPosition)
     {
-        if (ConfigBehavior.LightCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RIGHT)
+        if ((ConfigBehavior.LightCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RIGHT) ||
+            (ConfigBehavior.HeavyCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RIGHT) ||
+            (ConfigBehavior.UltraCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RIGHT))
             basicPathCreator(CurrentPosition, (uint)ConfigBehavior.VehicleRobotConfiguration.RIGHT);
-        else if (ConfigBehavior.LightCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.LEFT)
+        else if ((ConfigBehavior.LightCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.LEFT) ||
+                (ConfigBehavior.HeavyCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.LEFT) ||
+                (ConfigBehavior.UltraCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.LEFT))
             basicPathCreator(CurrentPosition, (uint)ConfigBehavior.VehicleRobotConfiguration.LEFT);
-        else if (ConfigBehavior.LightCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RANDOM)
+        else if ((ConfigBehavior.LightCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RANDOM) ||
+                (ConfigBehavior.HeavyCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RANDOM) ||
+                (ConfigBehavior.UltraCurrentConfig == ConfigBehavior.VehicleRobotConfiguration.RANDOM))
             basicPathCreator(CurrentPosition, (uint)ConfigBehavior.VehicleRobotConfiguration.RANDOM);
     }
     

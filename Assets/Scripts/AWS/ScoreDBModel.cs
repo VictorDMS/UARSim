@@ -1,5 +1,4 @@
-﻿//CharacterCreator.cs
-using Amazon;
+﻿using Amazon;
 using Amazon.CognitoIdentity;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
@@ -9,49 +8,21 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+//eu-central-1:82914392-8310-4b1e-b102-97613bc74f7d
 public class ScoreDBModel : MonoBehaviour{
 
-    [SerializeField]private string cognitoIdentityPoolString;
-
-    static private CognitoAWSCredentials credentials;
-    static private IAmazonDynamoDB _client;
-    static private DynamoDBContext _context;
     static private List<ScoreDBEntity> scoreDBEntities = new List<ScoreDBEntity>();
     static public bool ScoreRetrieved = false;
-    static private DynamoDBContext Context{
-        get{
-            if (_context == null)
-                _context = new DynamoDBContext(_client);
 
-            return _context;
-        }
-    }
-
-    private void Start(){
-        UnityInitializer.AttachToGameObject(gameObject);
-        credentials = new CognitoAWSCredentials(cognitoIdentityPoolString, RegionEndpoint.EUCentral1);
-        credentials.GetIdentityIdAsync(delegate (AmazonCognitoIdentityResult<string> result)
-        {
-            if (result.Exception != null){
-                Debug.LogError("exception hit: " + result.Exception.Message);
-            }
-            var ddbClient = new AmazonDynamoDBClient(credentials, RegionEndpoint.EUCentral1);
-            
-            _client = ddbClient;
-        });
-    }
-
-    
     public static void GetScoreTable(ScoreDBEntity NewScore)
     {
-        Table.LoadTableAsync(_client, "Score", loadTableResult => {
+        Table.LoadTableAsync(DBModel._client, "Score", loadTableResult => {
             if (loadTableResult.Exception != null){
                 Debug.Log("\n failed to load score from AWS");
             }
             else{
                 try{
-                    DynamoDBContext context = Context;
+                    DynamoDBContext context = DBModel.Context;
                     AsyncSearch<ScoreDBEntity> search = context.ScanAsync<ScoreDBEntity>(
                                                                 new ScanCondition("Level", ScanOperator.Equal, (int)LevelsManager.getCurrentLevel()));
                     
@@ -75,15 +46,14 @@ public class ScoreDBModel : MonoBehaviour{
     }
 
     public static void CreateScoreInTable(ScoreDBEntity NewScore)
-    {   
-        Context.SaveAsync(NewScore, (result) => {
+    {
+        DBModel.Context.SaveAsync(NewScore, (result) => {
             if (result.Exception == null){
                 Debug.Log("character saved");
             }
         });
     }
-
-
+    
     public static void getScoreFirst(ref Text ScoreLevelP1, ref Text PlayerLevelP1){
         if(scoreDBEntities.Count > 0){
             ScoreLevelP1.text = scoreDBEntities.ElementAt(0).TimeElapsed.ToString() + " s";
@@ -104,7 +74,7 @@ public class ScoreDBModel : MonoBehaviour{
     }
     public static void loadCurrentScorePosition(ref Text PlayerLevelActual, ScoreDBEntity CurrentScore){
         for (int i = 0; i < scoreDBEntities.Count; i++){
-            if (scoreDBEntities.ElementAt(i).UserID == CurrentScore.UserID){
+            if(scoreDBEntities.ElementAt(i) == CurrentScore) {
                 PlayerLevelActual.text = (i+1).ToString() + ". " + PlayerLevelActual.text;
                 break;
             }

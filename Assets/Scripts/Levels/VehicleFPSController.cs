@@ -12,7 +12,7 @@ public class VehicleFPSController : MonoBehaviour
     [SerializeField]private float m_StepInterval;
     [SerializeField]private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
     [SerializeField]public VehicleAutomaticMovement AutoMov;
-    public enum Speed { LIGHT_SPEED = 4, HEAVY_SPEED = 2, ULTRA_SPEED = 10 } ;
+    public enum Speed { LIGHT_SPEED = 3, HEAVY_SPEED = 2, ULTRA_SPEED = 6/*8*/ } ;
     public Speed m_WalkSpeed;
 
     private Camera m_Camera;
@@ -26,6 +26,7 @@ public class VehicleFPSController : MonoBehaviour
 
     public enum AutoWalkingState {     Starting, Rotating, WalkingStraight, Disabled, unknown    };
     public static AutoWalkingState m_AutoWalkingState;
+    private bool CurrentlyTouchingMoveLog = false, CurrentlyTouchingLookLog = false;
 
     // Use this for initialization
     private void Start()
@@ -137,6 +138,13 @@ public class VehicleFPSController : MonoBehaviour
                 break;
             case AutoWalkingState.Disabled:
                 MouseXDist = CrossPlatformInputManager.GetAxis("Mouse X");
+                if((MouseXDist == 0.0f) && CurrentlyTouchingLookLog){
+                    EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.EndTouchLooking, "Vehicle End Touching Looking");
+                    CurrentlyTouchingLookLog = false;
+                }else if ((MouseXDist != 0.0f) && !CurrentlyTouchingLookLog){
+                    EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.StartTouchLooking, "Vehicle Begin Touching Looking");
+                    CurrentlyTouchingLookLog = true;
+                }
                 break;
             case AutoWalkingState.Starting:
                 AutoMov.buildWaypointsPathForCurrentConfiguration(transform);
@@ -177,13 +185,20 @@ public class VehicleFPSController : MonoBehaviour
                 if (state != VehicleAutomaticMovement.VehicleAutomaticMovementState.STRAIGHT){
                     m_AutoWalkingState = AutoWalkingState.Rotating;
                 }else{
-                    vertical = VehicleAutomaticMovement.VEHICLE_STRAIGHT_SPEED;;
+                    vertical = VehicleAutomaticMovement.VEHICLE_STRAIGHT_SPEED;
                     horizontal = 0.0f;
                 }
                 break;
             case AutoWalkingState.Disabled:
                 horizontal = CrossPlatformInputManager.GetAxisRaw("HorizontalVehicle");
                 vertical = CrossPlatformInputManager.GetAxisRaw("VerticalVehicle");
+                if((horizontal == 0.0f) && (vertical == 0.0f) && CurrentlyTouchingMoveLog){
+                    EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.EndTouchMoving, "Vehicle End Touching Moving");
+                    CurrentlyTouchingMoveLog = false;
+                }else if (((horizontal != 0.0f) || (vertical != 0.0f)) && !CurrentlyTouchingMoveLog){
+                    EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.StartTouchMoving, "Vehicle Begin Touching Moving");
+                    CurrentlyTouchingMoveLog = true;
+                }
                 break;
             case AutoWalkingState.Starting:
                 AutoMov.buildWaypointsPathForCurrentConfiguration(transform);

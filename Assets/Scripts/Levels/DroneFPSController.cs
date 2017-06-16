@@ -14,7 +14,7 @@ public class DroneFPSController : MonoBehaviour
     [SerializeField]private float m_StepInterval;
     [SerializeField]private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
     [SerializeField]private DroneAutomaticMovement AutoMov;
-    public enum Speed { NORMAL_SPEED = 5, SLOW_SPEED = 3, FAST_SPEED = 10 };
+    public enum Speed { NORMAL_SPEED = 2, SLOW_SPEED = 2, FAST_SPEED = 4 };
     public Speed m_WalkSpeed;
 
     private Camera m_Camera;
@@ -29,6 +29,7 @@ public class DroneFPSController : MonoBehaviour
 
     public enum AutoWalkingState { Starting, Started, Disabled, unknown };
     public static AutoWalkingState m_AutoWalkingState;
+    private bool CurrentlyTouchingLog = false;
 
     // Use this for initialization
     private void Start()
@@ -175,6 +176,13 @@ public class DroneFPSController : MonoBehaviour
             case AutoWalkingState.Disabled:
                 horizontal = CrossPlatformInputManager.GetAxisRaw("HorizontalDrone");
                 vertical = CrossPlatformInputManager.GetAxisRaw("VerticalDrone");
+                if((horizontal == 0.0f) && (vertical == 0.0f) && CurrentlyTouchingLog){
+                    EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.EndTouchMoving, "Drone End Touching Moving");
+                    CurrentlyTouchingLog = false;
+                }else if (((horizontal != 0.0f) || (vertical != 0.0f)) && !CurrentlyTouchingLog){
+                    EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.StartTouchMoving, "Drone Begin Touching Moving");
+                    CurrentlyTouchingLog = true;
+                }
                 break;
             case AutoWalkingState.Starting:
                 AutoMov.buildWaypointsPathForCurrentConfiguration(transform);

@@ -10,8 +10,8 @@ public class LoadingBehavior : MonoBehaviour {
     public enum Action { Intro, StartSim, NameSelector, Tutorials, AboutUs, unknown };
     public static Action ActionToPerform = Action.unknown;
     public static int Timer = 0;
-    public GameObject LayerFadeInOut;
-    public float FadeInOutSpeed = 0;
+    [SerializeField]private GameObject LayerFadeInOut;
+    [SerializeField]private float FadeInOutSpeed = 0;
 
     private const int MAX_LOADING_SIZE = 230;
     private const int MIN_LOADING_SIZE = 80;

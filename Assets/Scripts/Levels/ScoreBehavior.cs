@@ -55,17 +55,17 @@ public class ScoreBehavior : MonoBehaviour {
                 break;
         }
         
-        var CurrentTimeStamp = System.DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture); ;
+        var CurrentTimeStamp = System.DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
         CurrentScore = new ScoreDBEntity {
-            UserID = SystemInfo.deviceUniqueIdentifier + CurrentTimeStamp,
             DeviceID = SystemInfo.deviceUniqueIdentifier,
             Level = (int)LevelsManager.getCurrentLevel(),
             TimeElapsed = CurrentElapsedTime,
             Timestamp = CurrentTimeStamp,
-            RobotConfiguration = getRobotConfigurationString(),
+            RobotConfiguration = DBModel.getRobotConfigurationString(),
             DisplayName = GameManager.PlayerName,
-            Email = GameManager.EmailPlayer
-    };
+            Email = GameManager.EmailPlayer,
+            GameID = GameManager.GameID
+        };
         
         ScoreLevelActual.text = CurrentScore.TimeElapsed.ToString() + " s";
         PlayerLevelActual.text = CurrentScore.DisplayName;
@@ -121,69 +121,5 @@ public class ScoreBehavior : MonoBehaviour {
     public void loadScoreTotal(){
         BackButtonText.GetComponent<Text>().text = "Back to Menu";
         Title.GetComponent<Text>().text = "Total Score";
-    }
-    private string getRobotConfigurationString(){
-        string RobotConfigurationString = "";
-        
-        switch (ConfigBehavior.QuadCurrentConfig){
-            case ConfigBehavior.QuadRobotConfiguration.SPIRAL:
-                RobotConfigurationString = "Drone:Spiral.";
-                break;
-            case ConfigBehavior.QuadRobotConfiguration.SCAN:
-                RobotConfigurationString = "Drone:Scan.";
-                break;
-            case ConfigBehavior.QuadRobotConfiguration.RANDOM:
-                RobotConfigurationString = "Drone:Random.";
-                break;
-        }
-        switch (ConfigBehavior.LightCurrentConfig){
-            case ConfigBehavior.VehicleRobotConfiguration.LEFT:
-                RobotConfigurationString += "Light:Left.";
-                break;
-            case ConfigBehavior.VehicleRobotConfiguration.RIGHT:
-                RobotConfigurationString += "Light:Right.";
-                break;
-            case ConfigBehavior.VehicleRobotConfiguration.RANDOM:
-                RobotConfigurationString += "Light:Random.";
-                break;
-        }
-        switch (ConfigBehavior.UltraCurrentConfig){
-            case ConfigBehavior.VehicleRobotConfiguration.LEFT:
-                RobotConfigurationString += "Ultra:Left.";
-                break;
-            case ConfigBehavior.VehicleRobotConfiguration.RIGHT:
-                RobotConfigurationString += "Ultra:Right.";
-                break;
-            case ConfigBehavior.VehicleRobotConfiguration.RANDOM:
-                RobotConfigurationString += "Ultra:Random.";
-                break;
-        }
-        switch (ConfigBehavior.HeavyCurrentConfig){
-            case ConfigBehavior.VehicleRobotConfiguration.LEFT:
-                RobotConfigurationString += "Heavy:Left.";
-                break;
-            case ConfigBehavior.VehicleRobotConfiguration.RIGHT:
-                RobotConfigurationString += "Heavy:Right.";
-                break;
-            case ConfigBehavior.VehicleRobotConfiguration.RANDOM:
-                RobotConfigurationString += "Heavy:Random.";
-                break;
-        }
-        switch (ConfigBehavior.AutoConfiguration){
-            case ConfigBehavior.RobotTypes.DRONE:
-                RobotConfigurationString += "Auto:Drone.";
-                break;
-            case ConfigBehavior.RobotTypes.LIGHT:
-                RobotConfigurationString += "Auto:Light.";
-                break;
-            case ConfigBehavior.RobotTypes.ULTRA:
-                RobotConfigurationString += "Auto:Ultra.";
-                break;
-            case ConfigBehavior.RobotTypes.HEAVY:
-                RobotConfigurationString += "Auto:Heavy.";
-                break;
-        }
-
-        return RobotConfigurationString;
     }
 }

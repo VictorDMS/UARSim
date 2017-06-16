@@ -24,15 +24,17 @@ public class LevelsManager : MonoBehaviour {
 
     public static bool ShowFirstTimeControlImageVehicle = true;
     public static bool ShowFirstTimeControlImageDrone = true;
-
-    public enum Levels { Start = -1, L1 = 1, L2 = 2, L3 = 3, L4 = 4, End = 0 };
+    
+    public enum Levels { Start = 10, L1 = 1, L2 = 2, L3 = 3, L4 = 4, End = 11, unknown = -1 };
     private static Levels CurrentLevel = Levels.Start;
         
     public static bool foundGoal(){
         bool FinishedLevel = false;
+        int RemainingGoalsForLog = 0;
         switch (CurrentLevel){
             case Levels.L1:
                 --Points_L1;
+                RemainingGoalsForLog = Points_L1;
                 if (Points_L1 == 0){
                     FinishedLevel = true;
                     Points_L1 = MaxPoints_L1;
@@ -40,6 +42,7 @@ public class LevelsManager : MonoBehaviour {
                 break;
             case Levels.L2:
                 --Points_L2;
+                RemainingGoalsForLog = Points_L2;
                 if (Points_L2 == 0){
                     FinishedLevel = true;
                     Points_L2 = MaxPoints_L2;
@@ -47,6 +50,7 @@ public class LevelsManager : MonoBehaviour {
                 break;
             case Levels.L3:
                 --Points_L3;
+                RemainingGoalsForLog = Points_L3;
                 if (Points_L3 == 0){
                     FinishedLevel = true;
                     Points_L3 = MaxPoints_L3;
@@ -54,12 +58,14 @@ public class LevelsManager : MonoBehaviour {
                 break;
             case Levels.L4:
                 --Points_L4;
+                RemainingGoalsForLog = Points_L4;
                 if (Points_L4 == 0){
                     FinishedLevel = true;
                     Points_L4 = MaxPoints_L4;
                 }
                 break;
         }
+        EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.GetGoal, "Remaining: " + RemainingGoalsForLog);
         return FinishedLevel;
     }
     public static void loadNewLevel(){

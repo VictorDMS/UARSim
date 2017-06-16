@@ -5,7 +5,6 @@ public class DroneAutomaticMovement : AutomaticMovement
 {
     public const float DRONE_AUTOMATIC_SPEED = 0.01f;
     private const float DISTANCE_ACHIEVED_WAYPOINT = 1.3f;
-    private const float ANGLE_ACHIEVED_WAYPOINT = 4.0f;
     
     public override void buildWaypointsPathForCurrentConfiguration(Transform CurrentPosition)
     {

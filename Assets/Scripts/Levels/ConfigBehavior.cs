@@ -48,7 +48,7 @@ public class ConfigBehavior : MonoBehaviour {
         enableObject(Light, false);
         enableObject(Heavy, false);
         enableObject(Ultra, false);
-        updateButton();
+        BackButton.GetComponent<Button>().interactable = false;
     }
     public void onToggleQuadSpiral(bool newValue){
         if (newValue){
@@ -243,6 +243,7 @@ public class ConfigBehavior : MonoBehaviour {
         storeUltraConfiguration();
         storeAutoConfiguration();
 
+        EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.AfterChangeConfig, DBModel.getRobotConfigurationString());
         StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, backToLevel));
     }
     void backToLevel(){
@@ -250,6 +251,7 @@ public class ConfigBehavior : MonoBehaviour {
     }
     
     public void launchConfigLayer(){
+        EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.BeforeChangeConfig, DBModel.getRobotConfigurationString());
         switch (LevelsManager.getCurrentLevel()){
             case LevelsManager.Levels.L1:
                 loadLevel1Config();

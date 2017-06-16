@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour{
     public static GameManager instance = null;
-    public static string PlayerName = "", EmailPlayer = "";
+    public static string PlayerName = "", EmailPlayer = "", GameID = "";
 
     void Awake(){
         if (instance == null){

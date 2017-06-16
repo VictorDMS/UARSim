@@ -1,14 +1,12 @@
-﻿//CharacterEntity 
-using Amazon.DynamoDBv2.DataModel;
+﻿using Amazon.DynamoDBv2.DataModel;
 
 [DynamoDBTable("Score")]
-public class ScoreDBEntity
-{
-    [DynamoDBHashKey]   // Hash key.
-    public string UserID { get; set; }
+public class ScoreDBEntity{
+    [DynamoDBHashKey]
+    public string DeviceID { get; set; }
 
     [DynamoDBProperty]
-    public string DeviceID { get; set; }
+    public string GameID { get; set; }
 
     [DynamoDBProperty]
     public int Level { get; set; }

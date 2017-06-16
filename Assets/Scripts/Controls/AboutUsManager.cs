@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ControlsManager : MonoBehaviour {
+public class AboutUsManager : MonoBehaviour {
     public GameObject LayerFadeInOut;
     public float FadeInOutSpeed = 0;
 
@@ -11,12 +11,9 @@ public class ControlsManager : MonoBehaviour {
     }
 	
     public void onClickGoBack(){
+        EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.MenuGame, "From AboutUs To Intro");
         LoadingBehavior.ActionToPerform = LoadingBehavior.Action.Intro;
         LoadingBehavior.Timer = 1;
-        StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, loadLevel));
-    }
-
-    void loadLevel(){
-        GameManager.loadLoading();
+        StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, GameManager.loadLoading));
     }
 }

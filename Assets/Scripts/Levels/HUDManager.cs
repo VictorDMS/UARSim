@@ -31,12 +31,11 @@ public class HUDManager : MonoBehaviour {
     }
 
     void changeRobotControl(){
-        Debug.Log("Click on change Robot State");
         LevelControllerObj.GetComponent<LevelController>().changeActiveRobot();
         StartCoroutine(Fade.fadeOutCoroutine(LayerFadeInOut, FadeInOutSpeed));
     }
 	public void onClickMiniMap() {//We display the map with full size
-		Debug.Log("Click on Mini Map");
+		EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.OpenMap, "");
 		miniMap.SetActive(false);
 		fullMap.SetActive(true);
 		cancelFullMapButton.SetActive(true);
@@ -44,8 +43,8 @@ public class HUDManager : MonoBehaviour {
 	}
 
 	public void onClickCancelFullMap() {//We display the map with full size
-		Debug.Log("Click on Cancel Full Map");
-		miniMap.SetActive(true);
+        EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.CloseMap, "");
+        miniMap.SetActive(true);
 		fullMap.SetActive(false);
 		cancelFullMapButton.SetActive(false);
         LevelControllerObj.GetComponent<LevelController>().loadActiveRobot();
