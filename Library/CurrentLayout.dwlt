@@ -20,7 +20,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: 
   m_RootView: {fileID: 4}
-  m_MinSize: {x: 950, y: 542}
+  m_MinSize: {x: 950, y: 521}
   m_MaxSize: {x: 10000, y: 10000}
 --- !u!114 &2
 MonoBehaviour:
@@ -67,10 +67,10 @@ MonoBehaviour:
     y: 0
     width: 429
     height: 635
-  m_MinSize: {x: 234, y: 492}
-  m_MaxSize: {x: 10004, y: 14042}
+  m_MinSize: {x: 234, y: 471}
+  m_MaxSize: {x: 10004, y: 14021}
   vertical: 1
-  controlID: 49
+  controlID: 76
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -136,10 +136,10 @@ MonoBehaviour:
     y: 30
     width: 1366
     height: 635
-  m_MinSize: {x: 713, y: 492}
-  m_MaxSize: {x: 18008, y: 14042}
+  m_MinSize: {x: 711, y: 471}
+  m_MaxSize: {x: 18006, y: 14021}
   vertical: 0
-  controlID: 9
+  controlID: 75
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -180,8 +180,8 @@ MonoBehaviour:
     y: 0
     width: 657
     height: 635
-  m_MinSize: {x: 202, y: 421}
-  m_MaxSize: {x: 4002, y: 8021}
+  m_MinSize: {x: 202, y: 442}
+  m_MaxSize: {x: 4002, y: 8042}
   vertical: 1
   controlID: 10
 --- !u!114 &9
@@ -227,8 +227,8 @@ MonoBehaviour:
     y: 0
     width: 280
     height: 635
-  m_MinSize: {x: 277, y: 71}
-  m_MaxSize: {x: 4002, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -279,8 +279,8 @@ MonoBehaviour:
     y: 326
     width: 657
     height: 309
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -366,9 +366,9 @@ MonoBehaviour:
     height: 265
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
+    m_SelectedIDs: 78070000
     m_LastClickedID: 0
-    m_ExpandedIDs: beefffff70f1ffff16f2ffff94f4ffffc6f4ffff3ef5ffff46f5ffffbef9ffffc4f9ffffdafbffff000000007e410000
+    m_ExpandedIDs: dafbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -461,19 +461,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/MazeGenerator/Prefabs
+    - Assets/Scripts/AWS
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/MazeGenerator/Prefabs
+  - Assets/Scripts/AWS
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\devel\UARSim
   m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 88.650604}
-    m_SelectedIDs: 782c0000
-    m_LastClickedID: 11384
-    m_ExpandedIDs: 0000000006270000cc270000e82900000e2f0000063200000832000000ca9a3bffffff7f
+    scrollPos: {x: 0, y: 209}
+    m_SelectedIDs: e4270000
+    m_LastClickedID: 10212
+    m_ExpandedIDs: 0000000006270000cc270000ea290000102f0000823800008438000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -501,7 +501,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000006270000cc270000e82900000e2f00000632000008320000
+    m_ExpandedIDs: 0000000006270000cc270000ea290000102f00008238000084380000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -532,15 +532,15 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c62f00000000000034370000e62700006293feff6a290000f42b000090b0ffff92280000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: WallForMap
-      m_OriginalName: WallForMap
+      m_Name: MazeSpawner
+      m_OriginalName: MazeSpawner
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 12118
+      m_UserData: 1420
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
       m_OriginalEventType: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 77}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 16
   m_DirectoriesAreaWidth: 179
 --- !u!114 &18
@@ -625,7 +625,7 @@ MonoBehaviour:
       width: 2186.505
       height: 904.64557
     m_MinimalGUI: 1
-  m_defaultScale: 0.25092593
+  m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
   m_LastWindowPixelSize: {x: 655, y: 288}
@@ -691,7 +691,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.08675651, y: 0.05526173, z: -0.0048199343, w: -0.994684}
     speed: 2
-    m_Value: {x: -0.08675651, y: 0.05526173, z: -0.0048199343, w: -0.994684}
+    m_Value: {x: -0.086756505, y: 0.055261727, z: -0.004819934, w: -0.9946839}
   m_Size:
     m_Target: 7.56125
     speed: 2

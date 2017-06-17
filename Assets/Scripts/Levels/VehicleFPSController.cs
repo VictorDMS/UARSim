@@ -3,6 +3,8 @@ using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
 using UnityStandardAssets.Characters.FirstPerson;
+using System.Collections.Generic;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(AudioSource))]
@@ -27,6 +29,8 @@ public class VehicleFPSController : MonoBehaviour
     public enum AutoWalkingState {     Starting, Rotating, WalkingStraight, Disabled, unknown    };
     public static AutoWalkingState m_AutoWalkingState;
     private bool CurrentlyTouchingMoveLog = false, CurrentlyTouchingLookLog = false;
+    private const float DELAY_FOR_LOG_DATA = 0.3f;
+    private float HorizontalMov = 0.0f, VerticalMov = 0.0f, MouseLookX = 0.0f;
 
     // Use this for initialization
     private void Start()
@@ -38,6 +42,7 @@ public class VehicleFPSController : MonoBehaviour
         m_AudioSource = GetComponent<AudioSource>();
         m_MouseLook.Init(transform, m_Camera.transform);
         m_AutoWalkingState = AutoWalkingState.Disabled;
+        StartCoroutine(movementLogger());
     }
 
     // Update is called once per frame
@@ -145,6 +150,7 @@ public class VehicleFPSController : MonoBehaviour
                     EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.StartTouchLooking, "Vehicle Begin Touching Looking");
                     CurrentlyTouchingLookLog = true;
                 }
+                MouseLookX = MouseXDist;
                 break;
             case AutoWalkingState.Starting:
                 AutoMov.buildWaypointsPathForCurrentConfiguration(transform);
@@ -199,6 +205,8 @@ public class VehicleFPSController : MonoBehaviour
                     EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.StartTouchMoving, "Vehicle Begin Touching Moving");
                     CurrentlyTouchingMoveLog = true;
                 }
+                HorizontalMov = horizontal;
+                VerticalMov = vertical;
                 break;
             case AutoWalkingState.Starting:
                 AutoMov.buildWaypointsPathForCurrentConfiguration(transform);
@@ -208,6 +216,17 @@ public class VehicleFPSController : MonoBehaviour
             case AutoWalkingState.unknown:
             default:
                 break;
+        }
+    }
+
+    private IEnumerator movementLogger(){
+        while (true){
+            if(m_AutoWalkingState == AutoWalkingState.Disabled){
+                EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.ActualPos, "Vehicle Position: " + transform.position.ToString("G4"));
+                EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.FingersPosition, 
+                    "Vehicle Movement: H - " + HorizontalMov.ToString() + " V - " + VerticalMov.ToString() + " LookX - " + MouseLookX.ToString());
+            }
+            yield return new WaitForSeconds(DELAY_FOR_LOG_DATA);
         }
     }
 

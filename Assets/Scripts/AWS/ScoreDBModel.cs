@@ -16,7 +16,7 @@ public class ScoreDBModel : MonoBehaviour{
 
     public static void GetScoreTable(ScoreDBEntity NewScore)
     {
-        Table.LoadTableAsync(DBModel._client, "Score", loadTableResult => {
+        Table.LoadTableAsync(DBModel._client, "ScoreUSAR", loadTableResult => {
             if (loadTableResult.Exception != null){
                 Debug.Log("\n failed to load score from AWS");
             }

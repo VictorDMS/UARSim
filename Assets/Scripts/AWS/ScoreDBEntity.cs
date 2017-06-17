@@ -1,6 +1,6 @@
 ﻿using Amazon.DynamoDBv2.DataModel;
 
-[DynamoDBTable("Score")]
+[DynamoDBTable("ScoreUSAR")]
 public class ScoreDBEntity{
     [DynamoDBHashKey]
     public string DeviceID { get; set; }

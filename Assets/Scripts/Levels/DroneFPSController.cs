@@ -3,6 +3,7 @@ using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
 using UnityStandardAssets.Characters.FirstPerson;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(AudioSource))]
@@ -30,6 +31,8 @@ public class DroneFPSController : MonoBehaviour
     public enum AutoWalkingState { Starting, Started, Disabled, unknown };
     public static AutoWalkingState m_AutoWalkingState;
     private bool CurrentlyTouchingLog = false;
+    private const float DELAY_FOR_LOG_DATA = 0.3f;
+    private float HorizontalMov = 0.0f, VerticalMov = 0.0f;
 
     // Use this for initialization
     private void Start()
@@ -41,6 +44,7 @@ public class DroneFPSController : MonoBehaviour
         m_AudioSource = GetComponent<AudioSource>();
         m_MouseLook.Init(transform, m_Camera.transform);
         m_AutoWalkingState = AutoWalkingState.Disabled;
+        StartCoroutine(movementLogger());
     }
 
     // Update is called once per frame
@@ -183,6 +187,8 @@ public class DroneFPSController : MonoBehaviour
                     EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.StartTouchMoving, "Drone Begin Touching Moving");
                     CurrentlyTouchingLog = true;
                 }
+                HorizontalMov = horizontal;
+                VerticalMov = vertical;
                 break;
             case AutoWalkingState.Starting:
                 AutoMov.buildWaypointsPathForCurrentConfiguration(transform);
@@ -193,6 +199,18 @@ public class DroneFPSController : MonoBehaviour
                 break;
         }
     }
+
+    private IEnumerator movementLogger(){
+        while (true){
+            if(m_AutoWalkingState == AutoWalkingState.Disabled){
+                EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.ActualPos, "Drone Position: " + transform.position.ToString("G4"));
+                EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.FingersPosition, 
+                    "Drone Movement: H - " + HorizontalMov.ToString() + " V - " + VerticalMov.ToString());
+            }
+            yield return new WaitForSeconds(DELAY_FOR_LOG_DATA);
+        }
+    }
+
     public void resetPosition(){
         transform.position = new Vector3(0.0f, 10.0f, 0.0f);
         m_AutoWalkingState = AutoWalkingState.Disabled;

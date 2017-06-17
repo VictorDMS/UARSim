@@ -7,10 +7,10 @@ public enum EventsTypesDB{
 public enum SubEventsTypesDB{
     ChangeRobots, BeforeChangeConfig, AfterChangeConfig, OpenMap, CloseMap, StartTouchMoving,
     EndTouchMoving, StartTouchLooking, EndTouchLooking, MenuGame, ActualPos, WallCollision,
-    WallDestroyed, DeadEnd, StartLevel, EndLevel, GetGoal, FingersPosition
+    WallDestroyed, DeadEnd, StartLevel, EndLevel, GetGoal, FingersPosition, Score
 }
 
-[DynamoDBTable("Events")]
+[DynamoDBTable("EventsUSAR")]
 public class EventsDBEntity
 {
     [DynamoDBHashKey]

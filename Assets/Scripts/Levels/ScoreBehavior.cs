@@ -99,6 +99,7 @@ public class ScoreBehavior : MonoBehaviour {
 
     void backToLevel(){
         ScoreDBModel.CreateScoreInTable(CurrentScore);
+        EventsDBModel.logEvent(EventsTypesDB.ScoreEvent, SubEventsTypesDB.Score, "TimeElapsed: " + CurrentScore.Timestamp.ToString());
         LevelsManager.ExitScoreMenu = true;
     }
 
