@@ -1,41 +1,7 @@
-﻿using Amazon;
-using Amazon.CognitoIdentity;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DBModel : MonoBehaviour
 {
-    [SerializeField] public string cognitoIdentityPoolString;
-    static public CognitoAWSCredentials credentials;
-    static public IAmazonDynamoDB _client;
-    static public DynamoDBContext _context;
-    static public DynamoDBContext Context
-    {
-        get
-        {
-            if (_context == null)
-                _context = new DynamoDBContext(_client);
-            return _context;
-        }
-    }
-
-    private void Start()
-    {
-        UnityInitializer.AttachToGameObject(gameObject);
-        credentials = new CognitoAWSCredentials(cognitoIdentityPoolString, RegionEndpoint.EUCentral1);
-        credentials.GetIdentityIdAsync(delegate (AmazonCognitoIdentityResult<string> result)
-        {
-            if (result.Exception != null)
-            {
-                Debug.LogError("exception hit: " + result.Exception.Message);
-            }
-            var ddbClient = new AmazonDynamoDBClient(credentials, RegionEndpoint.EUCentral1);
-
-            _client = ddbClient;
-        });
-    }
-
     static public string getRobotConfigurationString()
     {
         string RobotConfigurationString = "";

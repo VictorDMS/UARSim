@@ -13,16 +13,45 @@ public class ScoreDBModel : MonoBehaviour{
 
     static private List<ScoreDBEntity> scoreDBEntities = new List<ScoreDBEntity>();
     static public bool ScoreRetrieved = false;
+    [SerializeField] public string cognitoIdentityPoolString;
+    static public CognitoAWSCredentials credentials;
+    static public IAmazonDynamoDB _client;
+    static public DynamoDBContext _context;
+    static public DynamoDBContext Context
+    {
+        get
+        {
+            if (_context == null)
+                _context = new DynamoDBContext(_client);
+            return _context;
+        }
+    }
+
+    private void Start()
+    {
+        UnityInitializer.AttachToGameObject(gameObject);
+        credentials = new CognitoAWSCredentials(cognitoIdentityPoolString, RegionEndpoint.EUCentral1);
+        credentials.GetIdentityIdAsync(delegate (AmazonCognitoIdentityResult<string> result)
+        {
+            if (result.Exception != null)
+            {
+                Debug.LogError("exception hit: " + result.Exception.Message);
+            }
+            var ddbClient = new AmazonDynamoDBClient(credentials, RegionEndpoint.EUCentral1);
+
+            _client = ddbClient;
+        });
+    }
 
     public static void GetScoreTable(ScoreDBEntity NewScore)
     {
-        Table.LoadTableAsync(DBModel._client, "ScoreUSAR", loadTableResult => {
+        Table.LoadTableAsync(_client, "ScoreUSAR", loadTableResult => {
             if (loadTableResult.Exception != null){
                 Debug.Log("\n failed to load score from AWS");
             }
             else{
                 try{
-                    DynamoDBContext context = DBModel.Context;
+                    DynamoDBContext context = Context;
                     AsyncSearch<ScoreDBEntity> search = context.ScanAsync<ScoreDBEntity>(
                                                                 new ScanCondition("Level", ScanOperator.Equal, (int)LevelsManager.getCurrentLevel()));
                     
@@ -47,7 +76,7 @@ public class ScoreDBModel : MonoBehaviour{
 
     public static void CreateScoreInTable(ScoreDBEntity NewScore)
     {
-        DBModel.Context.SaveAsync(NewScore, (result) => {
+        Context.SaveAsync(NewScore, (result) => {
             if (result.Exception == null){
                 Debug.Log("character saved");
             }

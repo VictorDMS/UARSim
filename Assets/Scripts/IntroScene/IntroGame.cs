@@ -16,7 +16,7 @@ public class IntroGame : MonoBehaviour {
         LoadingBehavior.ActionToPerform = LoadingBehavior.Action.StartSim;
         LoadingBehavior.Timer = 1;
         StartCoroutine(Fade.fadeInCoroutine(LayerFadeInOut, FadeInOutSpeed, GameManager.loadLoading));
-	}
+    }
 
 	public void onClickTutorialButton(){
         EventsDBModel.logEvent(EventsTypesDB.UserEvent, SubEventsTypesDB.MenuGame, "From Intro To Tutorial");

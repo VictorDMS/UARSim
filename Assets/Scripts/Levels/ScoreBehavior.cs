@@ -57,6 +57,7 @@ public class ScoreBehavior : MonoBehaviour {
         
         var CurrentTimeStamp = System.DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
         CurrentScore = new ScoreDBEntity {
+            UUID = SystemInfo.deviceUniqueIdentifier + "_"+ CurrentTimeStamp + "_"+ Random.Range(0, 1000000).ToString(),
             DeviceID = SystemInfo.deviceUniqueIdentifier,
             Level = (int)LevelsManager.getCurrentLevel(),
             TimeElapsed = CurrentElapsedTime,
@@ -74,11 +75,11 @@ public class ScoreBehavior : MonoBehaviour {
     }
 
     private IEnumerator loadScoreInGUI(){
-        int WATCHDOG = 20;
+        const int WATCHDOG = 20;
         for (int i = 0;;i++)
         {
             if (ScoreDBModel.ScoreRetrieved ||
-                i >= 20){
+                i >= WATCHDOG){
                 ScoreDBModel.ScoreRetrieved = false;
                 ScoreDBModel.getScoreFirst(ref ScoreLevelP1, ref PlayerLevelP1);
                 ScoreDBModel.getScoreSecond(ref ScoreLevelP2, ref PlayerLevelP2);
@@ -100,6 +101,7 @@ public class ScoreBehavior : MonoBehaviour {
     void backToLevel(){
         ScoreDBModel.CreateScoreInTable(CurrentScore);
         EventsDBModel.logEvent(EventsTypesDB.ScoreEvent, SubEventsTypesDB.Score, "TimeElapsed: " + CurrentScore.Timestamp.ToString());
+        EventsDBModel.CreateEventsInTable();
         LevelsManager.ExitScoreMenu = true;
     }
 

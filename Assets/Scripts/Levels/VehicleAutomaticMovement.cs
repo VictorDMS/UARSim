@@ -5,7 +5,7 @@ public class VehicleAutomaticMovement : AutomaticMovement
 {
     public enum VehicleAutomaticMovementState { LEFT_ROTATING, RIGHT_ROTATING, STRAIGHT };
 
-    public const float VEHICLE_ROTATION_SPEED = 4f;//0.5f;
+    public const float VEHICLE_ROTATION_SPEED = 3.0f;//0.5f;
     public const float VEHICLE_STRAIGHT_SPEED = 0.005f;//0.01f;
     private const float DISTANCE_ACHIEVED_WAYPOINT = 1.3f;
     private const float ANGLE_ACHIEVED_WAYPOINT = 20.0f;//4.0f;

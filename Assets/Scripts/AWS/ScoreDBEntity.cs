@@ -3,6 +3,9 @@
 [DynamoDBTable("ScoreUSAR")]
 public class ScoreDBEntity{
     [DynamoDBHashKey]
+    public string UUID { get; set; }
+
+    [DynamoDBProperty]
     public string DeviceID { get; set; }
 
     [DynamoDBProperty]

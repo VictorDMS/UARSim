@@ -20,9 +20,17 @@ public class VehicleCollider : MonoBehaviour{
         }else if (other.tag.Equals("Wall") &&
             ((LevelsManager.getCurrentLevel() == LevelsManager.Levels.L1) || (LevelsManager.getCurrentLevel() == LevelsManager.Levels.L2))){
             EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.WallCollision, "");
+        }else if (other.tag.Equals("FloorDeadEnd")) {
+            EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.DeadEnd, "Vehicle Entering in Dead-End");
         }
     }
-    
+
+    private void OnTriggerExit(Collider other){
+        if (other.tag.Equals("Floor")) {
+            EventsDBModel.logEvent(EventsTypesDB.GameEvent, SubEventsTypesDB.DeadEnd, "Vehicle Exiting from Dead-End");
+        }
+    }
+
     public IEnumerator BreakDeath(GameObject Wallsito){//Adding Quaternions is done via *
         if(LevelsManager.getCurrentLevel() == LevelsManager.Levels.L3)
             Instantiate(BrokenWallL3, Wallsito.transform.position, Wallsito.transform.rotation * BrokenWallL3.transform.rotation);

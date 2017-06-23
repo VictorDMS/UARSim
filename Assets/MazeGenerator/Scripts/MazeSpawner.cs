@@ -16,7 +16,7 @@ public class MazeSpawner : MonoBehaviour {
 	public MazeGenerationAlgorithm Algorithm = MazeGenerationAlgorithm.PureRecursive;
 	public bool FullRandom = false;
 	public int RandomSeed = 12345;
-	public GameObject Floor1 = null, Floor2 = null, Floor3 = null, Floor4 = null, FloorForMap = null;
+	public GameObject Floor1 = null, Floor2 = null, Floor3 = null, Floor4 = null, FloorForMap = null, FloorForLog = null;
 	public GameObject Wall1 = null, Wall2 = null, Wall3 = null, Wall4 = null, WallForMap = null, WallForLog = null;
 	public GameObject Pillar1 = null, Pillar2 = null, Pillar3 = null, Pillar4 = null;
 	public const int Rows = 10; //5;
@@ -160,6 +160,11 @@ public class MazeSpawner : MonoBehaviour {
                     AutomaticMovement.MazeMatrix3DPoints[(row * 2)][(column * 2) + 1] = new Vector3(x, 0, z - CellHeight / 2) + getWall().transform.position;
                     /*NEW CODE VDMS*/
                 }
+
+                if (cell.IsGoal){
+                    tmp = Instantiate(FloorForLog, new Vector3(x, 0, z), Quaternion.Euler(0, 0, 0)) as GameObject;
+                    tmp.transform.parent = transform;
+                }
             }
         }
 
@@ -190,17 +195,13 @@ public class MazeSpawner : MonoBehaviour {
             for (uint i = 0; i < NumberOfGoalPrefab; ++i){
                 GameObject tmp;
                 int RandomX = UnityEngine.Random.Range(0, Columns), RandomY = UnityEngine.Random.Range(0, Rows);
-                while ((RandomX == 0) && (RandomY == 0))
-                {
+                while ((RandomX == 0) && (RandomY == 0)){
                     RandomX = UnityEngine.Random.Range(0, Columns);
                     RandomY = UnityEngine.Random.Range(0, Rows);
                 }
                 tmp = Instantiate(GoalPrefab, new Vector3(RandomX * (CellWidth + (AddGaps ? .2f : 0)), 1, RandomY * (CellHeight + (AddGaps ? .2f : 0))), Quaternion.Euler(0, 0, 0)) as GameObject;
                 tmp.transform.parent = transform;
-                //tmp = Instantiate(GoalPrefabForMap, new Vector3(RandomX * (CellWidth + (AddGaps ? .2f : 0)), 1, RandomY * (CellHeight + (AddGaps ? .2f : 0))), Quaternion.Euler(0, 0, 0)) as GameObject;
-                //tmp.transform.parent = transform;
-                //GameObject tmp;
-                //tmp = Instantiate(GoalPrefab, new Vector3(4,0,4), Quaternion.Euler(0, 0, 0)) as GameObject;
+                //tmp = Instantiate(GoalPrefab, new Vector3(4, 0, 4), Quaternion.Euler(0, 0, 0)) as GameObject;
                 //tmp.transform.parent = transform;
             }
         }

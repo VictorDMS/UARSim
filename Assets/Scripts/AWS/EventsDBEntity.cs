@@ -14,6 +14,9 @@ public enum SubEventsTypesDB{
 public class EventsDBEntity
 {
     [DynamoDBHashKey]
+    public string UUID { get; set; }
+
+    [DynamoDBProperty]
     public string DeviceID { get; set; }
 
     [DynamoDBProperty]
